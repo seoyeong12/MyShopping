@@ -1,5 +1,13 @@
 {% extends 'item/base.html' %} <!-- 10 모듈화하고 이거 붙이기 -->
 {% block main_area %}
+{% if user.is_authenticated %}
+            {% if user.is_superuser or user.is_staff %}
+                <a href="/item/create_item/" role="button"
+                   class="btn btn-info btn-sm float-right">
+                    <i class="fas fa-pen"></i> New Item
+                </a>
+            {% endif %}
+        {% endif %}
                 <h2>Item
                     {% if category %}
                     - <span class="badge badge-secondary">{{ category }}</span>

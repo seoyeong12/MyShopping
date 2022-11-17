@@ -4,6 +4,12 @@
 
 
         <section class="py-5">
+            {% if user.is_authenticated and user == item.author %}
+                <a href="/item/update_item/{{item.pk}}/" role="button"
+                   class="btn btn-info btn-sm float-right">
+                    <i class="fas fa-pen">Edit Item</i>
+                </a>
+            {% endif %}
             <div class="container px-4 px-lg-5 my-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     {% if item.head_image %} <!--16 이미지 없는 글일때 쓰려고 detail도 똑같이 -->
@@ -29,21 +35,17 @@
                             <span class="text-decoration-line-through">{{item.price}}원</span><br>
                             <span>{{item.manufacturer | upper}}</span><br>
                             {% if item.seller %}
-
-                                        <a href="{{item.seller.get_absolute_url}}">{{item.seller}}</a>
-
-                                {% else %}
-
-                                        <a href="/item/seller/no_seller/">셀러없어</a>
-
-                                {% endif %}
+                                <a href="{{item.seller.get_absolute_url}}">{{item.seller}}</a>
+                            {% else %}
+                                <a href="/item/seller/no_seller/">셀러없어</a>
+                            {% endif %}
 <!--                            <a href="#">{{p.seller | upper}}</a><br>-->
 <!-- {{item.admin | upper}}-->
                             <span>{{item.content}}</span>
                         </div>
-                        {% if p.tags.exists %}
+                        {% if item.tags.exists %}
                                 <i class="fas fa-tag"></i>
-                                {% for t in p.tags.iterator %}
+                                {% for t in item.tags.iterator %}
                                     <span class="badge badge-pill badge-light">
                                         <a href="{{t.get_absolute_url}}">{{t}}</a>
                                     </span>

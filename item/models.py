@@ -40,6 +40,8 @@ class Item(models.Model): #상품
     head_image = models.ImageField(upload_to='item/images/', blank=True) #이미지
     manufacturer = models.CharField(max_length=30) #제조사
 
+    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE) #판매자 다대일
 
     category = models.ForeignKey(Category, null=True, blank = True, on_delete=models.SET_NULL) #카테고리 다대일
