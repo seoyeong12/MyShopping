@@ -1,0 +1,80 @@
+{% extends 'item/base.html' %} <!-- 10모듈화하고 이거 붙이기 -->
+{% block main_area %}
+        <!-- Product section-->
+
+
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    {% if item.head_image %} <!--16 이미지 없는 글일때 쓰려고 detail도 똑같이 -->
+                        <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{item.head_image.url}}" alt="{{item}}의 head_image" /></div> <!--15 이미지 소스 추가 ,detail로 이동-->
+                    {% else %}<!-- 16 랜덤 이미지 -> post_detail로 이동-->
+                        <img class="card-img-top" src="https://picsum.photos/seed/{{item.pk}}/800/200" alt="random image" />
+                    {% endif %}
+                    <div class="col-md-6">
+                        <h1 class="display-5 fw-bolder">{{item.name}}</h1>
+<!--                        {% if item.hook_text %} &lt;!&ndash; 9 hooktext text-muted는 회색 &ndash;&gt;-->
+<!--                            <h5 class="text-muted">{{item.hook_text}}</h5>-->
+<!--                        {% endif %}-->
+                        <div class="fs-5 mb-5">
+                            {% if p.category %}
+                                    <span class="badge badge-secondary float-right">
+                                        <a href="{{p.category.get_absolute_url}}">{{p.category}}</a>
+                                    </span>
+                                {% else %}
+                                    <span class="badge badge-secondary float-right">
+                                        <a href="/item/category/no_category/">미분류</a>
+                                    </span>
+                                {% endif %}
+                            <span class="text-decoration-line-through">{{item.price}}원</span><br>
+                            <span>{{item.manufacturer | upper}}</span><br>
+                            {% if item.seller %}
+
+                                        <a href="{{item.seller.get_absolute_url}}">{{item.seller}}</a>
+
+                                {% else %}
+
+                                        <a href="/item/seller/no_seller/">셀러없어</a>
+
+                                {% endif %}
+<!--                            <a href="#">{{p.seller | upper}}</a><br>-->
+<!-- {{item.admin | upper}}-->
+                            <span>{{item.content}}</span>
+                        </div>
+                        {% if p.tags.exists %}
+                                <i class="fas fa-tag"></i>
+                                {% for t in p.tags.iterator %}
+                                    <span class="badge badge-pill badge-light">
+                                        <a href="{{t.get_absolute_url}}">{{t}}</a>
+                                    </span>
+                                {% endfor %}
+                                <br><br>
+                            {% endif %}
+                        <div class="d-flex">
+                            <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                <i class="bi-cart-fill me-1"></i>
+                                Add to cart
+                            </button>
+                        </div>
+                        <!-- Post content-->
+<!--                        <section class="mb-5">-->
+<!--                            {% if item.file_upload %}-->
+<!--                            <a href="{{item.file_upload.url}}" class="btn btn-outline-dark" role="button" download>-->
+<!--                                {% if item.get_file_ext == 'xlsx' or item.get_file_ext == 'xls' %} &lt;!&ndash; 7 파일 별 부트스트랩 이미지-->
+<!--                                !!!!주의 !!!!         <script src="https://kit.fontawesome.com/9230cc2944.js" crossorigin="anonymous"></script> 붙여넣기 &ndash;&gt;-->
+<!--                                <i class="fa-regular fa-file-excel"></i>-->
+<!--                                {% elif item.get_file_ext == 'docx' or item.get_file_ext == 'doc' %}-->
+<!--                                <i class="fa-regular fa-file-word"></i>-->
+<!--                                {% else %}-->
+<!--                                <i class="fa-regular fa-file"></i>-->
+<!--                                {% endif %}-->
+<!--                                Download {{item.get_file_name}}-->
+<!--                            </a>-->
+<!--                            {% endif %}-->
+<!--                            </section>-->
+                    </div>
+                </div>
+            </div>
+        </section>
+{% endblock %}
