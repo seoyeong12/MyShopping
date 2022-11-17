@@ -54,5 +54,16 @@ class Item(models.Model): #상품
     def get_absolute_url(self):
         return f'/item/{self.pk}/'
 
+class Comment(models.Model):
+    post = models.ForeignKey(Item, on_delete=models.CASCADE)
+    author = models.ForeignKey(User,on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f'{self.author} : {self.content}'
+
+    def get_absolute_url(self):
+        return f'{self.item.get_absolute_url()}#comment-{self.pk}'
 # Create your models here.

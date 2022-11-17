@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Item,Seller,Category,Tag
+from .models import Item,Seller,Category,Tag,Comment
 
 
 admin.site.register(Item)
@@ -19,6 +19,7 @@ class TagAdmin(admin.ModelAdmin):
 
 admin.site.register(Tag,TagAdmin)
 
+admin.site.register(Comment)
 
 
 # Register your models here.
