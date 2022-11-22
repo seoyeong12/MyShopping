@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(max_length=200, unique=True, allow_unicode=True)
@@ -20,7 +19,7 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'Categories'
 
-class Seller(models.Model): #판매자
+class Seller(models.Model):
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL) #판매자 계정
     name = models.CharField(max_length=10,unique=True) #판매자 이름
     slug = models.SlugField(max_length=200, unique=True, allow_unicode=True)
@@ -49,13 +48,13 @@ class Item(models.Model): #상품
     tags = models.ManyToManyField(Tag, blank=True) #태그 다대다
 
     def __str__(self):
-        return f'[{self.pk}]{self.name}:: {self.price} : {self.manufacturer} : {self.seller}'
+        return f'[{self.pk}]{self.name}::{self.author} : {self.price} : {self.manufacturer} : {self.seller}'
 
     def get_absolute_url(self):
         return f'/item/{self.pk}/'
 
 class Comment(models.Model):
-    post = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
     author = models.ForeignKey(User,on_delete=models.CASCADE)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -66,4 +65,5 @@ class Comment(models.Model):
 
     def get_absolute_url(self):
         return f'{self.item.get_absolute_url()}#comment-{self.pk}'
+
 # Create your models here.

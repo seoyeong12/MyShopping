@@ -3,8 +3,9 @@
                         <div class="card-header"><i class="fa-solid fa-magnifying-glass"></i> Search</div>
                         <div class="card-body">
                             <div class="input-group">
-                                <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
-                                <button class="btn btn-primary" id="button-search" type="button">Go!</button>
+                                <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search"
+                                id="search-input"/>
+                                <button class="btn btn-primary" id="button-search" type="button" onclick="searchItem();">Go!</button>
                             </div>
                         </div>
                     </div>
@@ -18,16 +19,23 @@
                                         {% for c in categories %}
                                             <li><a href="{{c.get_absolute_url}}">{{c}} ({{c.item_set.count}})</a></li>
                                         {% endfor %}
-                                            <li><a href="/item/category/no_item/">미분류 ({{no_category_item_count}})</a></li>
+                                            <li><a href="/item/category/no_category/">미분류 ({{no_category_item_count}})</a></li>
                                     </ul>
-<!--25                                </div>-->
-<!--                                <div class="col-sm-6">-->
-<!--                                    <ul class="list-unstyled mb-0">-->
-<!--                                        <li><a href="#!">JavaScript</a></li>-->
-<!--                                        <li><a href="#!">CSS</a></li>-->
-<!--                                        <li><a href="#!">Tutorials</a></li>-->
-<!--                                    </ul>-->
-<!--                                </div>-->
                             </div>
                         </div>
                     </div>
+                    <!-- Seller widget-->
+                    <div class="card mb-4" id='seller-card'> <!-- 25 id추가-->
+                        <div class="card-header">Sellers</div>
+                        <div class="card-body">
+                            <div class="row">
+                                    <ul class="list-unstyled mb-0">
+                                        {% for s in sellers %}
+                                            <li><a href="{{s.get_absolute_url}}">{{s}} ({{s.item_set.count}})</a></li>
+                                        {% endfor %}
+                                            <li><a href="/item/seller/no_seller/">미분류 ({{no_seller_item_count}})</a></li>
+                                    </ul>
+                            </div>
+                        </div>
+                    </div>
+

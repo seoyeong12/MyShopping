@@ -1,9 +1,12 @@
 from django.shortcuts import render,redirect
-from .models import Item,Seller,Category,Tag
+from .models import Item,Seller,Category,Tag ,Comment
 from django.views.generic import ListView, DetailView,CreateView,UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.utils.text import slugify
+from .forms import CommentForm
+from django.shortcuts import get_object_or_404
+from django.db.models import Q
 
 class ItemUpdate(LoginRequiredMixin,UpdateView):
     model = Item
@@ -83,6 +86,7 @@ class ItemCreate(LoginRequiredMixin,UserPassesTestMixin,CreateView):
 class ItemList(ListView):
     model = Item
     ordering = '-pk'
+    paginate_by = 5
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ItemList,self).get_context_data()
         context['categories'] = Category.objects.all()
@@ -100,6 +104,8 @@ class ItemDetail(DetailView):
         context['no_category_item_count'] = Item.objects.filter(category=None).count
         context['sellers'] = Seller.objects.all()
         context['no_seller_item_count'] = Item.objects.filter(seller=None).count
+        context['comment_form'] = CommentForm
+
         return context
 
 
@@ -114,7 +120,9 @@ def category_page(request, slug):
         'category' : category,
         'item_list' : item_list,
         'categories' : Category.objects.all(),
-        'no_category_item_count' : Item.objects.filter(category=None).count
+        'no_category_item_count' : Item.objects.filter(category=None).count,
+        'sellers': Seller.objects.all(),
+        'no_seller_item_count': Item.objects.filter(seller=None).count
     })
 def seller_page(request, slug):
     if slug == 'no_seller':
@@ -127,7 +135,9 @@ def seller_page(request, slug):
         'seller' : seller,
         'item_list' : item_list,
         'sellers' : Seller.objects.all(),
-        'no_seller_item_count' : Item.objects.filter(seller=None).count
+        'no_seller_item_count' : Item.objects.filter(seller=None).count,
+        'categories': Category.objects.all(),
+        'no_category_item_count': Item.objects.filter(category=None).count
     })
 def tag_page(request,slug):
     tag = Tag.objects.get(slug=slug)
@@ -140,6 +150,53 @@ def tag_page(request,slug):
         'sellers': Seller.objects.all(),
         'no_seller_item_count': Item.objects.filter(seller=None).count
     })
+def new_comment(request,pk):
+    if request.user.is_authenticated:
+        item = get_object_or_404(Item,pk=pk)
+        if request.method == 'POST':
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.item = item
+                comment.author = request.user
+                comment.save()
+                return redirect(comment.get_absolute_url())
+        else: #GET
+            return redirect(item.get_absolute_url())
+    else:
+        raise PermissionDenied
+class CommentUpdate(LoginRequiredMixin,UpdateView):
+    model = Comment
+    form_class = CommentForm
+    # CreateView, UpdateView, form을 사용하면
+    #템플릿이 모델명_forms 자동생성 : comment_form
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user == self.get_object().author:
+            return super(CommentUpdate, self).dispatch(request, *args, **kwargs)
+        else:
+            raise PermissionDenied
+def delete_comment(request,pk):
+    comment = get_object_or_404(Comment,pk=pk)
+    item = comment.item
+    if request.user.is_authenticated and request.user == comment.author:
+        comment.delete()
+        return redirect(item.get_absolute_url())
+    else:
+        raise PermissionDenied
 
+
+class ItemSearch(ItemList):
+    paginate_by = None
+    def get_queryset(self):
+        q = self.kwargs['q']
+        item_list = Item.objects.filter(
+            Q(name__contains=q) | Q(tags__name__contains=q) | Q(manufacturer__contains=q)
+        ).distinct()
+        return item_list
+    def get_context_data(self, **kwargs):
+        context = super(ItemSearch,self).get_context_data()
+        q = self.kwargs['q']
+        context['search_info'] = f'Search: {q} ({self.get_queryset().count()})'
+        return context
 # Create your views here.
 
