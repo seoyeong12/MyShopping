@@ -17,6 +17,15 @@
                     {% endif %}
                     {% if seller %}
                     - <span class="badge badge-secondary">{{ seller }}</span>
+                    <div class="card mt-1">
+                              <div class="card-body">
+                                  <h5>판매자 정보 - </h5>
+                                  <h4 class="font-weight-bold"> {{ seller.name }} </h4>
+                                      <h5>주소 : {{ seller.address }} <br>
+                                      연락처 : {{ seller.phone }} <br>
+                                          사업자등록번호 : {{ seller.bnum }}</h5>
+                              </div>
+                          </div>
                     {% endif %}
                     {% if tag %}
                     - <i class="fas fa-tag"></i>

@@ -10,7 +10,7 @@ from django.db.models import Q
 
 class ItemUpdate(LoginRequiredMixin,UpdateView):
     model = Item
-    fields = ['name','content','price','head_image','manufacturer','seller','category'] #'tags'
+    fields = ['name','content','price','head_image','manufacturer','category'] #'tags'
 
     template_name = 'item/item_update_form.html'
 
@@ -50,7 +50,7 @@ class ItemUpdate(LoginRequiredMixin,UpdateView):
         return context
 class ItemCreate(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     model = Item
-    fields = ['name','content','price','head_image','manufacturer','seller','category'] #'tags'
+    fields = ['name','content','price','head_image','manufacturer','category'] #'tags'
 
     def test_func(self):
         return self.request.user.is_superuser or self.request.user.is_staff

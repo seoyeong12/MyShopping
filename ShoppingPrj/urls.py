@@ -19,7 +19,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('',include('item.urls')),
     path('admin/', admin.site.urls),
     path('item/',include('item.urls')),
     path('', include('single_pages.urls')),  # IP주소/

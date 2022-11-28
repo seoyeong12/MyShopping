@@ -52,7 +52,6 @@ class Item(models.Model): #상품
 
     def get_absolute_url(self):
         return f'/item/{self.pk}/'
-
 class Comment(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     author = models.ForeignKey(User,on_delete=models.CASCADE)
