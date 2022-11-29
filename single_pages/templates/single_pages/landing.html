@@ -5,8 +5,8 @@
       <meta charset="UTF-8">
       <title>Title</title>
       <link rel="stylesheet" href="{% static 'item/bootstrap4/css/bootstrap.min.css' %}" media="screen">
+      <link rel="stylesheet" href="{% static 'single_pages/css/landing.css' %}" type="text/css" media="screen">
       <script src="https://kit.fontawesome.com/9230cc2944.js" crossorigin="anonymous"></script>
-      <link rel="stylesheet" href="{% static 'single_pages/css/landing.css' %}" media="screen">
   </head>
   <body>
       {% include 'item/navbar.html' %}
@@ -14,12 +14,13 @@
       <section>
           <div class="container">
               <div class="row justify-content-between">
-                  <div class="col-lg-6 text-light">
-                      <h1 class="mt-5">안녕하세요. 김서영입니다.</h1>
-                      <p>컴퓨터공학전공 20200706</p>
+                  <div class="col-lg-9 text-light">
+                      <h1 class="mt-5">온라인에서 편리하게 라면을 사보세요!</h1>
+                        <p class="lead">낱개 구매도 ok!</p>
+                        <p class="mb-0">한국 라면 외에도, 세계 각국의 라면을 다양하게 만나실 수 있습니다~</p>
                   </div>
-                  <div class="col-lg-5 mt-5">
-                      <h2 class="text-light">Item - Recent items</h2>
+                  <div class="col-lg-3 mt-5">
+                      <h3 class="text-light">Item - Recent items</h3>
                       {% for item in recent_items %}
                           <div class="card mt-1">
                               <div class="card-body">
