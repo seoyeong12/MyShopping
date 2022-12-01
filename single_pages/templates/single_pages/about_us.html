@@ -6,8 +6,9 @@
         <title>Shop Homepage - Start Bootstrap Template</title>
         <link href="{% static './item/bootstrap4/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" media="screen">
         <link rel="stylesheet" href="{% static 'single_pages/css/about_us.css' %}" type="text/css" media="screen">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-       </head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    </head>
     <body>
         {% include 'item/navbar.html' %}
         <header class="py-5 bg-image-full" id="back">
@@ -58,6 +59,173 @@
                 </div>
             </div>
          </section>
+        <section class="margin-for-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h1>PORTFOLIO</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="card" data-toggle="modal" data-target="#portfolio1">
+                            <img class="card-img-top" src="{% static 'single_pages/images/aboutme.png' %}">
+                            <div class="card-body">
+                                <h5>첫번째 포트폴리오</h5>
+                                <p>첫번째 포트폴리오입니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card" data-toggle="modal" data-target="#portfolio2">
+                            <img class="card-img-top" src="{% static 'single_pages/images/cloud.png' %}">
+                            <div class="card-body">
+                                <h5>카테고리</h5>
+                                <p>카테고리별 원형 그래프입니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card" data-toggle="modal" data-target="#portfolio3">
+                            <div class="card-img-top" id="mychart1"></div>
+                            <div class="card-body">
+                                <h5>제조사</h5>
+                                <p>제조사별 그래프입니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <script>
+            google.charts.load('current',{'packages':['line']}); //bar가 아니라 line으로 넣으면 선 차트
+            google.charts.setOnLoadCallback(drawChart);
+
+            function drawChart(){
+                var data = google.visualization.arrayToDataTable([
+                ['Manufacturer', 'Item'],
+                ['농심', 10],
+                ['오뚜기', 4],
+                ['삼양', 4],
+                ['팔도', 2]
+                ]);
+                var options = {
+                 chart: {
+                    title: 'Company Performance',
+                    subtitle : 'Sales, Expenses, Profit : 2014-2017'
+                 }
+                };
+                var chart = new google.charts.Line(document.getElementById('mychart1')); //Bar->Line으로 바꾸기
+                chart.draw(data, google.charts.Line.convertOptions(options)); //Bar->Line으로 바꾸기
+            };
+
+            google.charts.load('current',{'packages':['corechart']}); //파이차트는 corechart
+            google.charts.setOnLoadCallback(drawChart2);
+
+            function drawChart2(){
+                var data = google.visualization.arrayToDataTable([
+                ['Category', 'Item'],
+                ['봉지라면', 5],
+                ['짜장라면', 2],
+                ['컵라면', 2],
+                ['볶음라면', 6]
+                ]);
+                var options = {
+                 chart: {
+                    title: 'Company Performance',
+                    subtitle : 'Sales : 2014-2017'
+                 }
+                };
+                var chart = new google.visualization.PieChart(document.getElementById('mychart2'));
+                chart.draw(data, options);
+            };
+
+
+        </script>
+
+        <!--Modal-->
+        <div class="modal fade" id="portfolio1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">포트폴리오 1</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <h5>첫번째 포트폴리오</h5>
+                                <p>첫번째 포트폴리오입니다. 상세한 설명을 하고 있습니다.</p>
+                            </div>
+                            <div class="col-6">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Modal2-->
+        <div class="modal fade" id="portfolio2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel2">포트폴리오 2</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card-img-top" id="mychart2"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Modal3-->
+        <div class="modal fade" id="portfolio3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel3">포트폴리오 3</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <h5>Company Performance</h5>
+                                <table class="table table-boundary table-striped">
+                                    <tr><th>Manufacturer</th><th>Item</th></tr>
+                                    <tr><th>농심</th><td>10</td></tr>
+                                    <tr><th>오뚜기</th><td>4</td></tr>
+                                    <tr><th>삼양</th><td>4</td></tr>
+                                    <tr><th>팔도</th><td>2</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 <!--        <section>-->
 <!--          <div class="container">-->
 <!--              <div class="row justify-content-between">-->
@@ -86,5 +254,9 @@
 <!--        <div class="fixed-bottom">-->
           {% include 'item/footer.html' %}
 <!--        </div>        &lt;!&ndash; Bootstrap core JS&ndash;&gt;-->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+
     </body>
 </html>
