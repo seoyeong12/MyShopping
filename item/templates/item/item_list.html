@@ -71,6 +71,7 @@
     <!--                                    {{p.manufacturer | upper}}<br>-->
                                         {{p.content | truncatechars:20 }}
                                     </div>
+
                                     {% if p.tags.exists %}
                                         <i class="fas fa-tag"></i>
                                         {% for t in p.tags.iterator %}

@@ -46,7 +46,7 @@ class Item(models.Model): #상품
     category = models.ForeignKey(Category, null=True, blank = True, on_delete=models.SET_NULL) #카테고리 다대일
 
     tags = models.ManyToManyField(Tag, blank=True) #태그 다대다
-
+    like_users = models.ManyToManyField(User, related_name='like_item') #찜하기
     def __str__(self):
         return f'[{self.pk}]{self.name}::{self.author} : {self.price} : {self.manufacturer} : {self.seller}'
 

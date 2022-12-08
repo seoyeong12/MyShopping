@@ -1,4 +1,7 @@
+from django.http import JsonResponse
 from django.shortcuts import render,redirect
+from django.views.decorators.http import require_POST
+
 from .models import Item,Seller,Category,Tag ,Comment
 from django.views.generic import ListView, DetailView,CreateView,UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -198,5 +201,15 @@ class ItemSearch(ItemList):
         q = self.kwargs['q']
         context['search_info'] = f'Search: {q} ({self.get_queryset().count()})'
         return context
-# Create your views here.
 
+@require_POST
+def likes(request, pk):
+    if request.user.is_authenticated:
+        item = get_object_or_404(Item, pk=pk)
+
+        if item.like_users.filter(pk=request.user.pk).exists():
+            item.like_users.remove(request.user)
+        else:
+            item.like_users.add(request.user)
+        return redirect(item.get_absolute_url())
+    raise PermissionDenied

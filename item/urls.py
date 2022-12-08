@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-
+app_name = 'item'
 urlpatterns = [
     path('', views.ItemList.as_view()),
     path('<int:pk>/',views.ItemDetail.as_view()),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('category/<str:slug>/', views.category_page),
     path('tag/<str:slug>/', views.tag_page),  # IP주소/item/tag/slug/
     path('search/<str:q>/',views.ItemSearch.as_view()),
+    path('<int:pk>/likes/', views.likes, name='likes'),
 ]
