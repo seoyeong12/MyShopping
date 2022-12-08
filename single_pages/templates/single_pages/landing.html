@@ -5,7 +5,7 @@
       <meta charset="UTF-8">
       <title>Title</title>
       <link rel="stylesheet" href="{% static 'item/bootstrap4/css/bootstrap.min.css' %}" media="screen">
-      <link rel="stylesheet" href="{% static 'single_pages/css/landing.css' %}" type="text/css" media="screen">
+      <link rel="stylesheet" href="{% static 'single_page/css/landing.css' %}" type="text/css" media="screen">
       <script src="https://kit.fontawesome.com/9230cc2944.js" crossorigin="anonymous"></script>
   </head>
   <body>
@@ -14,13 +14,13 @@
       <section>
           <div class="container">
               <div class="row justify-content-between">
-                  <div class="col-lg-9 text-light">
-                      <h1 class="mt-5">온라인에서 편리하게 라면을 사보세요!</h1>
-                        <p class="lead">낱개 구매도 ok!</p>
-                        <p class="mb-0">한국 라면 외에도, 세계 각국의 라면을 다양하게 만나실 수 있습니다~</p>
+                  <div class="col-lg-9 text-light" >
+                      <h1 class="mt-5" style="color:#FF6347;">온라인에서 편리하게 라면을 사보세요!</h1>
+                        <p class="lead "style="color:#FF6347;">낱개 구매도 ok!</p>
+                        <p class="mb-0" style="color:#FF6347;">한국 라면 외에도, 세계 각국의 라면을 다양하게 만나실 수 있습니다~</p>
                   </div>
                   <div class="col-lg-3 mt-5">
-                      <h3 class="text-light">Item - Recent items</h3>
+                      <h3 style="color:#FF6347;">Item - Recent items</h3>
                       {% for item in recent_items %}
                           <div class="card mt-1">
                               <div class="card-body">
@@ -28,7 +28,7 @@
                                   <h6><a href="{{ item.get_absolute_url }}" class="text-decoration-none text-dark">{{ item.name }}</a></h6>
                                   <span class="badge badge-pill badge-light float-right">
                                       {{ item.seller.name }}
-                                      {{ item.price }}
+                                      ₩{{ item.price }}
                                   </span>
                               </div>
                           </div>

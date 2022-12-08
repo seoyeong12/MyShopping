@@ -55,11 +55,12 @@
                       </div>
                   </div>
                   <div class="col-lg-4 mt-5 mb-5">
-                      <h3 >Comment - Recent comments</h3>
+                      <h4>Comment - Recent comments</h4>
 <!--                      {% for item in items %}-->
 <!--                      <div>{{item.name}}</div>-->
 <!--                      {% if item.comment_set.exists %} &lt;!&ndash; post의 comment 모델 불러오기(_set) 원래는 field불러오는거&ndash;&gt;-->
-                      {% for comment in comments %}
+                      <!--{% for comment in comments %}-->
+                      {% if comment.author == user %}
                           <div class="card mt-1">
                               <div class="card-body">
                                   <h6><a href="{{ comment.get_absolute_url }}" class="text-decoration-none text-dark">{{ comment.content }}</a></h6>
@@ -68,8 +69,8 @@
                                   </span>
                               </div>
                           </div>
-                      {% endfor %}
-<!--                                  {% endif %}-->
+                      {% endif %}
+<!--                       {% endfor %}            {% endif %}-->
 <!--                      {% endfor %}-->
                   </div>
               </div>
@@ -87,8 +88,8 @@
 <!--                </div>-->
 <!--            </div>-->
 <!--        </section>-->
-<!--        <div class="fixed-bottom">-->
+        <div class="fixed-bottom">
           {% include 'item/footer.html' %}
-<!--        </div>-->
+        </div>
     </body>
 </html>
