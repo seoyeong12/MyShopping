@@ -213,3 +213,14 @@ def likes(request, pk):
             item.like_users.add(request.user)
         return redirect(item.get_absolute_url())
     raise PermissionDenied
+# def likes(request, pk):
+#     if request.user.is_authenticated:
+#         item = get_object_or_404(Item, pk=pk)
+#
+#         if item.like_users.filter(username=request.user.username).exists():
+#             item.like_users.remove(request.user)
+#         else:
+#             item.like_users.add(request.user)
+#         item.save()
+#         return redirect(item.get_absolute_url())
+#     raise PermissionDenied

@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+
+
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(max_length=200, unique=True, allow_unicode=True)
@@ -48,7 +50,7 @@ class Item(models.Model): #상품
     tags = models.ManyToManyField(Tag, blank=True) #태그 다대다
     like_users = models.ManyToManyField(User, related_name='like_item') #찜하기
     def __str__(self):
-        return f'[{self.pk}]{self.name}::{self.author} : {self.price} : {self.manufacturer} : {self.seller}'
+        return f'[{self.pk}]{self.name}::{self.author} : {self.price} : {self.manufacturer} : {self.seller} : {self.like_users} '
 
     def get_absolute_url(self):
         return f'/item/{self.pk}/'
