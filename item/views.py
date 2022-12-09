@@ -178,6 +178,13 @@ class CommentUpdate(LoginRequiredMixin,UpdateView):
             return super(CommentUpdate, self).dispatch(request, *args, **kwargs)
         else:
             raise PermissionDenied
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(CommentUpdate,self).get_context_data()
+        context['categories'] = Category.objects.all()
+        context['no_category_item_count'] = Item.objects.filter(category=None).count
+        context['sellers'] = Seller.objects.all()
+        context['no_seller_item_count'] = Item.objects.filter(seller=None).count
+        return context
 def delete_comment(request,pk):
     comment = get_object_or_404(Comment,pk=pk)
     item = comment.item
@@ -213,14 +220,3 @@ def likes(request, pk):
             item.like_users.add(request.user)
         return redirect(item.get_absolute_url())
     raise PermissionDenied
-# def likes(request, pk):
-#     if request.user.is_authenticated:
-#         item = get_object_or_404(Item, pk=pk)
-#
-#         if item.like_users.filter(username=request.user.username).exists():
-#             item.like_users.remove(request.user)
-#         else:
-#             item.like_users.add(request.user)
-#         item.save()
-#         return redirect(item.get_absolute_url())
-#     raise PermissionDenied

@@ -16,7 +16,7 @@
                     {% if item.head_image %} <!--16 이미지 없는 글일때 쓰려고 detail도 똑같이 -->
                         <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{item.head_image.url}}" alt="{{item}}의 head_image" /></div> <!--15 이미지 소스 추가 ,detail로 이동-->
                     {% else %}<!-- 16 랜덤 이미지 -> post_detail로 이동-->
-                        <img class="card-img-top" src="https://picsum.photos/seed/{{item.pk}}/800/200" alt="random image" />
+                        <img class="col-md-6" src="https://picsum.photos/seed/{{item.pk}}/800/200" alt="random image" />
                     {% endif %}
                     <div class="col-md-6">
                         <h1 class="display-5 fw-bolder">{{item.name}} <p class="lead">by {{item.author}}</p> </h1>
@@ -40,9 +40,19 @@
                             {% else %}
                                 <a href="/item/seller/no_seller/" style="color:	#FF6347;">셀러없음</a>
                             {% endif %}
-<!--                            <a href="#">{{p.seller | upper}}</a><br>-->
-<!-- {{item.admin | upper}}-->
                             <span>{{item.content}}</span>
+                        </div>
+                        <div>
+                          <form action="{% url 'item:likes' item.pk %}" method='POST' class="float-right">
+                            {% csrf_token %}
+                              {% if user.is_authenticated %}
+                                {% if user in item.like_users.all %}
+                                  <input type="submit" value='♥  찜하기 취소' style="border:2px solid #FF6347; border-radius:20px; background-color:white; color:#FF6347;">
+                                {% else %}
+                                  <input type="submit" value='♡  찜하기' style="border:2px solid #FF6347; border-radius:20px; background-color:white; color:#FF6347;">
+                                {% endif %}
+                              {% endif %}
+                          </form>
                         </div>
                         {% if item.tags.exists %}
                                 <i class="fas fa-tag"></i>
@@ -53,39 +63,6 @@
                                 {% endfor %}
                                 <br><br>
                             {% endif %}
-                        <div>
-                          <form action="{% url 'item:likes' item.pk %}" method='POST'>
-                            {% csrf_token %}
-                            {% if user in item.like_users.all %}
-                              <input type="submit" value='찜하기 취소'>
-                            {% else %}
-                              <input type="submit" value='찜하기'>
-                            {% endif %}
-                          </form>
-                        </div>
-                        <div class="d-flex">
-                            <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
-                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                                <i class="bi-cart-fill me-1"></i>
-                                Add to cart
-                            </button>
-                        </div>
-                        <!-- Post content-->
-<!--                        <section class="mb-5">-->
-<!--                            {% if item.file_upload %}-->
-<!--                            <a href="{{item.file_upload.url}}" class="btn btn-outline-dark" role="button" download>-->
-<!--                                {% if item.get_file_ext == 'xlsx' or item.get_file_ext == 'xls' %} &lt;!&ndash; 7 파일 별 부트스트랩 이미지-->
-<!--                                !!!!주의 !!!!         <script src="https://kit.fontawesome.com/9230cc2944.js" crossorigin="anonymous"></script> 붙여넣기 &ndash;&gt;-->
-<!--                                <i class="fa-regular fa-file-excel"></i>-->
-<!--                                {% elif item.get_file_ext == 'docx' or item.get_file_ext == 'doc' %}-->
-<!--                                <i class="fa-regular fa-file-word"></i>-->
-<!--                                {% else %}-->
-<!--                                <i class="fa-regular fa-file"></i>-->
-<!--                                {% endif %}-->
-<!--                                Download {{item.get_file_name}}-->
-<!--                            </a>-->
-<!--                            {% endif %}-->
-<!--                            </section>-->
                     </div>
                 </div>
             </div>

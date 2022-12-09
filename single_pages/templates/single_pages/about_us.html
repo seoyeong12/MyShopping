@@ -18,28 +18,12 @@
         {% include 'item/navbar.html' %}
         <header class="py-5 bg-image-full" id="back">
             <div class="text-center">
-                <img class="img-fluid rounded-circle" src="../static/single_pages/images/ramyun.jpg" alt="ramyun" />
+                <img class="img-fluid rounded-circle" src="../static/single_page/images/ramyun.jpg" alt="ramyun" />
                 <h1 class="mt-5 fs-3 fw-bolder">라면가게</h1>
                 <h4 class="mb-0">어서오세요~</h4>
             </div>
         </header>
-        <section>
-<!--            <div class="text-center">-->
-<!--                <img class="img-fluid rounded-circle" src="../static/single_pages/images/aboutme.png" alt="aboutme" />-->
-<!--                <h1 class="mt-5 fs-3 fw-bolder">김서영</h1>-->
-<!--                <h4 class="mb-0">컴퓨터공학전공 20200706</h4>-->
-<!--            </div>-->
-            <div class="container my-5">
-                <div class="row justify-content-center">
-                    <div class="col-lg-7 mt-5">
-                        <h2>온라인에서 편리하게 라면을 사보세요!</h2>
-                        <p class="lead">낱개 구매도 ok!</p>
-                        <p class="mb-0">한국 라면 외에도, 세계 각국의 라면을 다양하게 만나실 수 있습니다~</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-         <section class="page-section" id="services">
+         <section class="page-section mt-5" id="services">
             <div class="container">
                 <div class="text-center">
                     <h2 class="section-heading text-uppercase">Services</h2>
@@ -74,7 +58,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="card" data-toggle="modal" data-target="#portfolio1">
-                            <img class="card-img-top" src="{% static 'single_pages/images/aboutme.png' %}">
+                            <img class="card-img-top" src="{% static 'single_page/images/aboutme.png' %}">
                             <div class="card-body">
                                 <h5>첫번째 포트폴리오</h5>
                                 <p>첫번째 포트폴리오입니다.</p>
@@ -83,7 +67,7 @@
                     </div>
                     <div class="col-4">
                         <div class="card" data-toggle="modal" data-target="#portfolio2">
-                            <img class="card-img-top" src="{% static 'single_pages/images/cloud.png' %}">
+                            <img class="card-img-top" src="{% static 'single_page/images/cloud.png' %}">
                             <div class="card-body">
                                 <h5>카테고리</h5>
                                 <p>카테고리별 원형 그래프입니다.</p>
@@ -231,32 +215,7 @@
                 </div>
             </div>
         </div>
-<!--        <section>-->
-<!--          <div class="container">-->
-<!--              <div class="row justify-content-between">-->
-<!--                  <div class="col-lg-6 text-light">-->
-<!--                      <h1 class="mt-5">어서오세요. 라면가게입니다.</h1>-->
-<!--                      <p>편하게 둘러보세요~</p>-->
-<!--                  </div>-->
-<!--                  <div class="col-lg-5 mt-5">-->
-<!--                      <h2 class="text-light">Item - Recent items</h2>-->
-<!--                      {% for item in recent_items %}-->
-<!--                          <div class="card mt-1">-->
-<!--                              <div class="card-body">-->
-<!--&lt;!&ndash;                                  <img class="mr-1" width="20px" src="{{ item.head_image }}" alt="{{item.manufacturer}}">&ndash;&gt;-->
-<!--                                  <h6><a href="{{ item.get_absolute_url }}" class="text-decoration-none text-dark">{{ item.name }}</a></h6>-->
-<!--                                  <span class="badge badge-pill badge-light float-right">-->
-<!--                                      {{ item.seller.name }}-->
-<!--                                      {{ item.price }}-->
-<!--                                  </span>-->
-<!--                              </div>-->
-<!--                          </div>-->
-<!--                      {% endfor %}-->
-<!--                  </div>-->
-<!--              </div>-->
-<!--          </div>-->
-<!--      </section>-->
-<!--        <div class="fixed-bottom">-->
+
           {% include 'item/footer.html' %}
 <!--        </div>        &lt;!&ndash; Bootstrap core JS&ndash;&gt;-->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

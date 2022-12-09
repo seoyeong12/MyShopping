@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block main_area %}
-  <h1>Update Item</h1>
+  <h1 class="mt-5">Update Item</h1>
   <hr>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -15,6 +15,6 @@
         <input type="text" id="id_tags" name="tags_str" value="{{tags_str_default}}"
                   class="textinput textInput form-control">
       </div>
-    <button type="submit" class="btn btn-primary float-right">Submit</button>
+    <button type="submit" class="btn btn-primary float-right mt-4 mb-5" style="background-color:#FF6347; border-color:#FF6347;">Submit</button>
   </form>
 {% endblock %}
