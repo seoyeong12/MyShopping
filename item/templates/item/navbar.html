@@ -27,7 +27,7 @@
                         {% if user.is_authenticated %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {% if user.socialaccount_set.all.0.get_avatar_url %}
+                                {% if user.socialaccount_set.all != None and user.socialaccount_set.all.0.get_avatar_url %}
                                     <img class="rounded-circle mr-3" src="{{user.socialaccount_set.all.0.get_avatar_url}}" width="25px">
                                 {% else %}
                                     <img class="img-fluid rounded-circle mb-1 mr-1" src="/static/single_page/images/aboutme.png" width="25px" style="background-color:white;">
@@ -71,6 +71,10 @@
                                 </a>
                             </div>
                             <div class="col-6">
+                                <a role="button" class="btn btn-outline-dark btn-block btn-sm"
+                                    href="{% provider_login_url 'kakao' %}">
+                                    <i class="fa-regular fa-comment"></i> LogIn  with Kakao
+                                </a>
                                 <a role="button" class="btn btn-outline-dark btn-block btn-sm"
                                     href="/accounts/signup/">
                                     <i class="fa-regular fa-envelope"></i> SignUp  with Email

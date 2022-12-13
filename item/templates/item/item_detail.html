@@ -13,16 +13,13 @@
             {% endif %}
             <div class="container px-4 px-lg-5 my-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
-                    {% if item.head_image %} <!--16 이미지 없는 글일때 쓰려고 detail도 똑같이 -->
+                    {% if item.head_image %}
                         <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{item.head_image.url}}" alt="{{item}}의 head_image" /></div> <!--15 이미지 소스 추가 ,detail로 이동-->
-                    {% else %}<!-- 16 랜덤 이미지 -> post_detail로 이동-->
+                    {% else %}
                         <img class="col-md-6" src="https://picsum.photos/seed/{{item.pk}}/800/200" alt="random image" />
                     {% endif %}
                     <div class="col-md-6">
                         <h1 class="display-5 fw-bolder">{{item.name}} <p class="lead">by {{item.author}}</p> </h1>
-<!--                        {% if item.hook_text %} &lt;!&ndash; 9 hooktext text-muted는 회색 &ndash;&gt;-->
-<!--                            <h5 class="text-muted">{{item.hook_text}}</h5>-->
-<!--                        {% endif %}-->
                         <div class="fs-5 mb-5">
                             {% if p.category %}
                                     <span class="badge badge-light float-right">
@@ -58,7 +55,7 @@
                                 <i class="fas fa-tag"></i>
                                 {% for t in item.tags.iterator %}
                                     <span class="badge badge-pill badge-light">
-                                        <a href="{{t.get_absolute_url}}" style="color:	#FF6347;">{{t}}</a>
+                                        <a href="{{t.get_absolute_url}}" style="color:#FF6347;">{{t}}</a>
                                     </span>
                                 {% endfor %}
                                 <br><br>
@@ -67,7 +64,6 @@
                 </div>
             </div>
         </section>
-<!-- Comments section-->
                     <div id="comment-area" class="mb-5">
                         <div class="card bg-light">
                             <div class="card-body">
@@ -87,56 +83,147 @@
                                     Log in and Leave a comment
                                 </a>
                                 {% endif %}
-                                <!-- comment 대댓글 기능 지움 Comment with nested comments- -->
-                                {% if item.comment_set.exists %} <!-- post의 comment 모델 불러오기(_set) 원래는 field불러오는거-->
+                                {% if item.comment_set.exists %}
                                     {% for comment in item.comment_set.iterator %}
-                                    <!-- Single comment-->
-                                    <div class="media d-flex" id="comment-{{comment.pk}}">
-                                        <img class="mr-3 rounded-circle" src="{{comment.get_avatar_url}}" width="60px" alt="{{comment.author}}" />
-                                        <div class="media-body ms-3">
-                                            {% if user.is_authenticated and comment.author == user %}
-                                                <div class="float-right">
-                                                    <a role="button" class="btn btn-sm btn-light mr-1"
-                                                       href="/item/update_comment/{{comment.pk}}/" style="color:#FF6347;border-color:#FF6347;">Edit</a>
-                                                    <a role="button" href="#" id="comment-{{ comment.pk }}-delete-modal-btn"
-                                                       class="btn btn-sm float-right btn-dark" style="background-color:#FF6347;border-color:#FF6347;"
-                                                       data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">Delete</a>
-                                                </div>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="deleteCommentModal-{{ comment.pk }}" tabindex="-1" role="dialog"
-                                                 aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="deleteModalLabel">Are You Sure?</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <del>{{ comment | linebreaks }}</del>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                            <a role="button" class="btn btn-danger" href="/item/delete_comment/{{ comment.pk }}/">Delete</a>
+                                            {% if comment.parent == null %}
+                                            <div class="media d-flex" id="comment-{{comment.pk}}">
+                                                {% if comment.type is not None %}
+                                                <img class="mr-3 rounded-circle" src="{{comment.get_avatar_url}}" width="60px" alt="{{comment.author}}" />
+                                                {% else %}
+                                                <img class="mr-3 rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" width="60px" alt="{{comment.author}}" />
+                                                {% endif %}
+                                                <div class="media-body ms-3">
+                                                {% if user.is_authenticated and comment.author == user %}
+                                                    <div class="float-right">
+                                                        <a role="button" class="btn btn-sm btn-light mr-1"
+                                                           href="/item/update_comment/{{comment.pk}}/" style="color:#FF6347;border-color:#FF6347;">Edit</a>
+                                                        <a role="button" href="#" id="comment-{{ comment.pk }}-delete-modal-btn"
+                                                           class="btn btn-sm float-right btn-dark" style="background-color:#FF6347;border-color:#FF6347;"
+                                                           data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">Delete</a>
+                                                    </div>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="deleteCommentModal-{{ comment.pk }}" tabindex="-1" role="dialog"
+                                                         aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="deleteModalLabel">Are You Sure?</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <del>{{ comment.content | linebreaks }}</del>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                                    <a role="button" class="btn btn-danger" href="/item/delete_comment/{{ comment.pk }}/">Delete</a>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                {% else %}
+                                                    <div class="float-right">
+                                                    <a role="button" href="#" id="comment-{{ comment.pk }}-recomment-modal-btn"
+                                                           class="btn btn-sm float-right btn-dark" style="background-color:#FF6347;border-color:#FF6347;"
+                                                           data-toggle="modal" data-target="#reCommentModal-{{ comment.pk }}">Recomment</a>
+                                                    </div>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="reCommentModal-{{ comment.pk }}" tabindex="-1" role="dialog"
+                                                         aria-labelledby="reCommentModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="reModalLabel">Recomment</h5>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <form class="mb-4" id="recomment-form" method="post"
+                                                                        action="{{comment.get_absolute_url2}}/re_comment/">
+                                                                            {% csrf_token %}
+                                                                            <div class="form-group">
+                                                                                {{comment_form | crispy}}
+                                                                            </div>
+                                                                            <button type="submit" class="btn btn-primary float-right" style="background-color:#FF6347;border-color:#FF6347;">Submit</button>
+                                                                        </form>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                                <div class="fw-bold">
+                                                    {{comment.author.username}}
+                                                    <small class="text-muted">{{comment.created_at}}</small>
+                                                </div>
+                                                <p>{{comment.content | linebreaks}}</p>
+                                                {% if comment.created_at != comment.modified_at %}
+                                                <p class="text-muted float-right">
+                                                    <small>Updated : {{comment.modified_at}}</small>
+                                                </p>
+                                                {% endif %}
+                                            </div>
+                                            </div>
+                                            {% endif %}
+                                            {% for recomment in item.comment_set.iterator %}
+                                                {% if comment == recomment.parent %}
+                                                <!-- 대댓글 -->
+                                                <div class="media d-flex ml-4">
+                                                    <div class="media d-flex w-100" id="comment-{{recomment.pk}}">
+                                                    {% if comment.type is not None %}
+                                                        <img class="mr-3 rounded-circle" src="{{comment.get_avatar_url}}" width="60px" alt="{{comment.author}}" />
+                                                    {% else %}
+                                                        <img class="mr-3 rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" width="60px" alt="{{comment.author}}" />
+                                                    {% endif %}
+                                                    <div class="media-body ms-3">
+                                                    {% if user.is_authenticated and recomment.author == user %}
+                                                        <div class="float-right">
+                                                            <a role="button" class="btn btn-sm btn-light mr-1"
+                                                               href="/item/update_comment/{{recomment.pk}}/" style="color:#FF6347;border-color:#FF6347;">Edit</a>
+                                                            <a role="button" href="#" id="comment-{{ recomment.pk }}-delete-modal-btn"
+                                                               class="btn btn-sm float-right btn-dark" style="background-color:#FF6347;border-color:#FF6347;"
+                                                               data-toggle="modal" data-target="#deleteCommentModal-{{ recomment.pk }}">Delete</a>
+                                                        </div>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="deleteCommentModal-{{ recomment.pk }}" tabindex="-1" role="dialog"
+                                                             aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="deleteModalLabel">Are You Sure?</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <del>{{ recomment.content | linebreaks }}</del>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                                        <a role="button" class="btn btn-danger" href="/item/delete_comment/{{ recomment.pk }}/">Delete</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                    <div class="fw-bold">
+                                                        {{recomment.author.username}}
+                                                        <small class="text-muted">{{recomment.created_at}}</small>
+                                                    </div>
+                                                    <p>{{recomment.content | linebreaks}}</p>
+                                                    {% if recomment.created_at != recomment.modified_at %}
+                                                    <p class="text-muted float-right">
+                                                        <small>Updated : {{recomment.modified_at}}</small>
+                                                    </p>
+                                                    {% endif %}
                                                 </div>
                                             </div>
-                                            {% endif %}
-                                            <div class="fw-bold">
-                                                {{comment.author.username}}
-                                                <small class="text-muted">{{comment.created_at}}</small>
-                                            </div>
-                                            <p>{{comment.content | linebreaks}}</p>
-                                            {% if comment.created_at != comment.modified_at %}
-                                            <p class="text-muted float-right">
-                                                <small>Updated : {{comment.modified_at}}</small>
-                                            </p>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                {% endfor %}
+                                                </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                    {% endfor %}
                                 {% endif %}
                             </div>
                         </div>

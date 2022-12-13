@@ -6,6 +6,7 @@ urlpatterns = [
     path('<int:pk>/',views.ItemDetail.as_view()),
     path('<int:pk>/new_comment/', views.new_comment),
     path('update_comment/<int:pk>/', views.CommentUpdate.as_view()),
+    path('comment/<int:pk>/re_comment/',views.re_comment),
     path('delete_comment/<int:pk>/', views.delete_comment),
     path('create_item/', views.ItemCreate.as_view()),
     path('update_item/<int:pk>/', views.ItemUpdate.as_view()),

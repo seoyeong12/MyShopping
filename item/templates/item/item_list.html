@@ -1,4 +1,4 @@
-{% extends 'item/base.html' %} <!-- 10 모듈화하고 이거 붙이기 -->
+{% extends 'item/base.html' %}
 {% block main_area %}
     {% if user.is_authenticated %}
             {% if user.is_superuser or user.is_staff %}
@@ -13,15 +13,15 @@
                     - <small class="text-muted">{{ search_info }}</small>
                     {% endif %}
                     {% if category %}
-                    - <span class="badge badge-secondary">{{ category }}</span>
+                    - <span class="badge badge-light"style="color:#FF6347;">{{ category }}</span>
                     {% endif %}
                     {% if seller %}
-                    - <span class="badge badge-secondary">{{ seller }}</span>
+                    - <span class="badge badge-light"style="color:#FF6347;">{{ seller }}</span>
                     <div class="card mt-1">
                               <div class="card-body">
                                   <h5>판매자 정보 - </h5>
                                   <h4 class="font-weight-bold"> {{ seller.name }} </h4>
-                                      <h5>주소 : {{ seller.address }} <br>
+                                      <h5>주소 : {{ seller.address}} <br>
                                       연락처 : {{ seller.phone }} <br>
                                           사업자등록번호 : {{ seller.bnum }}</h5>
                               </div>

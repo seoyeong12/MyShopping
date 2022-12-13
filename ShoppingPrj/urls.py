@@ -18,10 +18,12 @@ from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('item/',include('item.urls')),
     path('', include('single_pages.urls')),  # IP주소/
     path('accounts/', include('allauth.urls')),
+    # path('accounts/kakao/login/callback/', getUserInfo),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

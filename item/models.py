@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(max_length=200, unique=True, allow_unicode=True)
@@ -60,12 +59,14 @@ class Comment(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
-
+    parent = models.ForeignKey('self',on_delete = models.CASCADE,null=True,blank=True)
     def __str__(self):
-        return f'{self.author} : {self.content}'
+        return f'{self.item.pk} : {self.author} : {self.content}'
 
     def get_absolute_url(self):
         return f'{self.item.get_absolute_url()}#comment-{self.pk}'
+    def get_absolute_url2(self): #대댓글용 url 전송
+        return f'/item/comment/{self.pk}'
     def get_avatar_url(self):
         if self.author.socialaccount_set.exists():
             return self.author.socialaccount_set.first().get_avatar_url()

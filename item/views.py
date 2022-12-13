@@ -1,6 +1,8 @@
-from django.http import JsonResponse
+from django.contrib.sites import requests
 from django.shortcuts import render,redirect
+from django.views import View
 from django.views.decorators.http import require_POST
+from rest_framework.response import Response
 
 from .models import Item,Seller,Category,Tag ,Comment
 from django.views.generic import ListView, DetailView,CreateView,UpdateView
@@ -10,7 +12,10 @@ from django.utils.text import slugify
 from .forms import CommentForm
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
-
+#
+# from ShoppingPrj.settings import SOCIAL_OUTH_CONFIG
+# from rest_framework.decorators import api_view, permission_classes
+# from rest_framework.permissions import AllowAny
 class ItemUpdate(LoginRequiredMixin,UpdateView):
     model = Item
     fields = ['name','content','price','head_image','manufacturer','category'] #'tags'
@@ -162,12 +167,31 @@ def new_comment(request,pk):
                 comment = comment_form.save(commit=False)
                 comment.item = item
                 comment.author = request.user
+
                 comment.save()
                 return redirect(comment.get_absolute_url())
         else: #GET
             return redirect(item.get_absolute_url())
     else:
         raise PermissionDenied
+def re_comment(request,pk):
+    if request.user.is_authenticated:
+        c = get_object_or_404(Comment,pk=pk)
+        item = c.item
+        if request.method == 'POST':
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.item = item
+                comment.author = request.user
+                comment.parent = c
+                comment.save()
+                return redirect(item.get_absolute_url())
+        else: #GET
+            return redirect(item.get_absolute_url())
+    else:
+        raise PermissionDenied
+
 class CommentUpdate(LoginRequiredMixin,UpdateView):
     model = Comment
     form_class = CommentForm
@@ -220,3 +244,4 @@ def likes(request, pk):
             item.like_users.add(request.user)
         return redirect(item.get_absolute_url())
     raise PermissionDenied
+
