@@ -1,20 +1,19 @@
 {% extends 'item/base.html' %} <!-- 10모듈화하고 이거 붙이기 -->
 {% load crispy_forms_tags %}
 {% block main_area %}
-        <!-- Product section-->
-
-
-        <section class="py-5">
+{% load static %}
+<link rel="stylesheet" href="{% static 'item/css/item_detail.css' %}" type="text/css" media="screen">
+    <section class="py-5">
             {% if user.is_authenticated and user == item.author %}
                 <a href="/item/update_item/{{item.pk}}/" role="button"
-                   class="btn btn-info btn-sm float-right" style="background-color:#FF6347;border-color:#FF6347;">
-                    <i class="fas fa-pen">Edit Item</i>
+                   class="btn btn-info btn-sm float-right" id="edita">
+                    <i class="fas fa-pen"></i> Edit Item
                 </a>
             {% endif %}
             <div class="container px-4 px-lg-5 my-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     {% if item.head_image %}
-                        <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{item.head_image.url}}" alt="{{item}}의 head_image" /></div> <!--15 이미지 소스 추가 ,detail로 이동-->
+                        <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{item.head_image.url}}" alt="{{item}}의 head_image" /></div>
                     {% else %}
                         <img class="col-md-6" src="https://picsum.photos/seed/{{item.pk}}/800/200" alt="random image" />
                     {% endif %}
@@ -23,30 +22,30 @@
                         <div class="fs-5 mb-5">
                             {% if p.category %}
                                     <span class="badge badge-light float-right">
-                                        <a href="{{p.category.get_absolute_url}}" style="color:	#FF6347;">{{p.category}}</a>
+                                        <a href="{{p.category.get_absolute_url}}">{{p.category}}</a>
                                     </span>
                                 {% else %}
                                     <span class="badge badge-light float-right">
-                                        <a href="/item/category/no_category/" style="color:	#FF6347;">미분류</a>
+                                        <a href="/item/category/no_category/">미분류</a>
                                     </span>
                                 {% endif %}
                             <span class="text-decoration-line-through">{{item.price}}원</span><br>
                             <span>{{item.manufacturer | upper}}</span><br>
                             {% if item.seller %}
-                                <a href="{{item.seller.get_absolute_url}}" style="color:	#FF6347;">{{item.seller}}</a>
+                                <a href="{{item.seller.get_absolute_url}}">{{item.seller}}</a>
                             {% else %}
-                                <a href="/item/seller/no_seller/" style="color:	#FF6347;">셀러없음</a>
+                                <a href="/item/seller/no_seller/">셀러없음</a>
                             {% endif %}
                             <span>{{item.content}}</span>
                         </div>
                         <div>
-                          <form action="{% url 'item:likes' item.pk %}" method='POST' class="float-right">
+                          <form action="{% url 'item:likes' item.pk %}" method='POST' class="float-right mr-2">
                             {% csrf_token %}
                               {% if user.is_authenticated %}
                                 {% if user in item.like_users.all %}
-                                  <input type="submit" value='♥  찜하기 취소' style="border:2px solid #FF6347; border-radius:20px; background-color:white; color:#FF6347;">
+                                  <input type="submit" value='♥  찜하기 취소'  id="inputheart">
                                 {% else %}
-                                  <input type="submit" value='♡  찜하기' style="border:2px solid #FF6347; border-radius:20px; background-color:white; color:#FF6347;">
+                                  <input type="submit" value='♡  찜하기' id="inputheart">
                                 {% endif %}
                               {% endif %}
                           </form>
@@ -55,7 +54,7 @@
                                 <i class="fas fa-tag"></i>
                                 {% for t in item.tags.iterator %}
                                     <span class="badge badge-pill badge-light">
-                                        <a href="{{t.get_absolute_url}}" style="color:#FF6347;">{{t}}</a>
+                                        <a href="{{t.get_absolute_url}}">{{t}}</a>
                                     </span>
                                 {% endfor %}
                                 <br><br>
@@ -75,7 +74,7 @@
                                     <div class="form-group">
                                         {{comment_form | crispy}}
                                     </div>
-                                    <button type="submit" class="btn btn-primary" style="background-color:#FF6347;border-color:#FF6347;">Submit</button>
+                                    <button type="submit" class="btn btn-primary" id="btnsubmit">Submit</button>
                                 </form>
                                 {% else %}
                                 <a role="button" class="btn btn-dark btn-block btn-sm mb-5" href="#"
@@ -86,7 +85,7 @@
                                 {% if item.comment_set.exists %}
                                     {% for comment in item.comment_set.iterator %}
                                             {% if comment.parent == null %}
-                                            <div class="media d-flex" id="comment-{{comment.pk}}">
+                                            <div class="media d-flex mt-3" id="comment-{{comment.pk}}">
                                                 {% if comment.type is not None %}
                                                 <img class="mr-3 rounded-circle" src="{{comment.get_avatar_url}}" width="60px" alt="{{comment.author}}" />
                                                 {% else %}
@@ -96,9 +95,9 @@
                                                 {% if user.is_authenticated and comment.author == user %}
                                                     <div class="float-right">
                                                         <a role="button" class="btn btn-sm btn-light mr-1"
-                                                           href="/item/update_comment/{{comment.pk}}/" style="color:#FF6347;border-color:#FF6347;">Edit</a>
+                                                           href="/item/update_comment/{{comment.pk}}/" id="btned" >Edit</a>
                                                         <a role="button" href="#" id="comment-{{ comment.pk }}-delete-modal-btn"
-                                                           class="btn btn-sm float-right btn-dark" style="background-color:#FF6347;border-color:#FF6347;"
+                                                           class="btn btn-sm float-right btn-dark" style="color:#FF6347;border-color:#FF6347;"
                                                            data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">Delete</a>
                                                     </div>
                                                     <!-- Modal -->
@@ -123,9 +122,9 @@
                                                         </div>
                                                     </div>
                                                 {% else %}
-                                                    <div class="float-right">
+                                                    <div class="float-right" id="divrc">
                                                     <a role="button" href="#" id="comment-{{ comment.pk }}-recomment-modal-btn"
-                                                           class="btn btn-sm float-right btn-dark" style="background-color:#FF6347;border-color:#FF6347;"
+                                                           class="btn btn-sm float-right btn-dark"
                                                            data-toggle="modal" data-target="#reCommentModal-{{ comment.pk }}">Recomment</a>
                                                     </div>
                                                     <!-- Modal -->
@@ -143,7 +142,7 @@
                                                                             <div class="form-group">
                                                                                 {{comment_form | crispy}}
                                                                             </div>
-                                                                            <button type="submit" class="btn btn-primary float-right" style="background-color:#FF6347;border-color:#FF6347;">Submit</button>
+                                                                            <button type="submit" class="btn btn-primary float-right" id="btnrc">Submit</button>
                                                                         </form>
                                                                 </div>
                                                                 <div class="modal-footer">
@@ -181,7 +180,7 @@
                                                     {% if user.is_authenticated and recomment.author == user %}
                                                         <div class="float-right">
                                                             <a role="button" class="btn btn-sm btn-light mr-1"
-                                                               href="/item/update_comment/{{recomment.pk}}/" style="color:#FF6347;border-color:#FF6347;">Edit</a>
+                                                               href="/item/update_comment/{{recomment.pk}}/" id="btned">Edit</a>
                                                             <a role="button" href="#" id="comment-{{ recomment.pk }}-delete-modal-btn"
                                                                class="btn btn-sm float-right btn-dark" style="background-color:#FF6347;border-color:#FF6347;"
                                                                data-toggle="modal" data-target="#deleteCommentModal-{{ recomment.pk }}">Delete</a>

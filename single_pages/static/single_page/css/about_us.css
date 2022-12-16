@@ -1,18 +1,29 @@
+body{
+    font-family: Neue Montreal Medium Regular, "Malgun Gothic", serif;
+    color: #3A3C41;
+}
 section{
     margin-bottom:150px;
 }
 #back{
-    background: url('/static/single_pages/images/cloud.png') no-repeat center center fixed;
-    -webkit-background-size:cover;
-    -moz-background-size:cover;
-    background-size:cover;
-    -o-background-size:cover;
+    background-color:#F7F0E8;
 }
 .card {
     background-color: rgba(255, 255, 255, 0.6);
 }
 #ico{
-            font-size : 200px;
-            background-color: white;
-            border: 0px;
-        }
+    font-size : 200px;
+    background-color: white;
+    border: 0px;
+}
+#imgs{
+    margin-left:25%
+}
+#divcard{
+    background:url('../images/category.jpg');
+    width:100%;
+    height:200px;
+}
+#divtext{
+    border:2px solid white;
+}

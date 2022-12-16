@@ -1,31 +1,35 @@
 {% extends 'item/base.html' %}
 {% block main_area %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'item/css/item_list.css' %}" type="text/css" media="screen">
     {% if user.is_authenticated %}
             {% if user.is_superuser or user.is_staff %}
                 <a href="/item/create_item/" role="button"
-                   class="btn btn-info btn-sm float-right mt-5"  style="background-color:#FF6347;border-color:#FF6347;">
+                   class="btn btn-info btn-sm float-right mt-5" id="btnnew">
                     <i class="fas fa-pen"></i> New Item
                 </a>
             {% endif %}
         {% endif %}
-                <h2 class="mt-5">Item
+                <h5 class="mt-5"> > Item
                     {% if search_info %}
                     - <small class="text-muted">{{ search_info }}</small>
                     {% endif %}
                     {% if category %}
-                    - <span class="badge badge-light"style="color:#FF6347;">{{ category }}</span>
+                    - <span class="badge badge-light" id="colorcss">{{ category }}</span>
                     {% endif %}
                     {% if seller %}
-                    - <span class="badge badge-light"style="color:#FF6347;">{{ seller }}</span>
-                    <div class="card mt-1">
+                    - <span class="badge badge-light" id="colorcss">{{ seller }}</span>
+                    {% if seller != '미분류' %}
+                    <div class="card mt-3">
                               <div class="card-body">
-                                  <h5>판매자 정보 - </h5>
-                                  <h4 class="font-weight-bold"> {{ seller.name }} </h4>
+<!--                                  <h5>판매자 정보 - </h5>-->
+                                  <h4 class="font-weight-bold" id="colorcss"> {{ seller.name }} </h4>
                                       <h5>주소 : {{ seller.address}} <br>
                                       연락처 : {{ seller.phone }} <br>
                                           사업자등록번호 : {{ seller.bnum }}</h5>
                               </div>
                           </div>
+                    {% endif %}
                     {% endif %}
                     {% if tag %}
                     - <i class="fas fa-tag"></i>
@@ -33,16 +37,15 @@
                         {{ tag }} ({{tag.item_set.count}})
                     </span>
                     {% endif %}
-                </h2>
+                </h5>
         <!-- Section-->
         <section class="py-1">
             <div class="container px-4 px-lg-5 mt-5">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-3 justify-content-center">
                     {% if item_list.exists %}
-                    <!--13 반복-->
                         {% for p in item_list %}
                         <div class="col mb-5">
-                            <div class="card h-100">
+                            <div class="card h-100" id="divcard">
                                 {% if p.head_image %} <!--16 이미지 없는 글일때 쓰려고 detail도 똑같이 -->
                                     <a href="#!" ><img class="card-img-top" src="{{p.head_image.url}}" alt="{{p}}의 head_image" /></a> <!--15 이미지 소스 추가 ,detail로 이동-->
                                 {% else %}<!-- 16 랜덤 이미지 -> post_detail로 이동-->
@@ -52,11 +55,11 @@
                                 <div class="card-body p-4">
                                     {% if p.category %}
                                         <span class="badge float-right">
-                                            <a href="{{p.category.get_absolute_url}}" style="color:	#FF6347;">{{p.category}}</a>
+                                            <a href="{{p.category.get_absolute_url}}" id="colorcss">{{p.category}}</a>
                                         </span>
                                     {% else %}
                                         <span class="badge float-right">
-                                            <a href="/item/category/no_category/" style="color:	#FF6347;">미분류</a>
+                                            <a href="/item/category/no_category/" id="colorcss">미분류</a>
                                         </span>
                                     {% endif %}
                                     <div class="text-center">
@@ -76,7 +79,7 @@
                                         <i class="fas fa-tag"></i>
                                         {% for t in p.tags.iterator %}
                                             <span class="badge badge-pill badge-light">
-                                                <a href="{{t.get_absolute_url}}" style="color:	#FF6347;">{{t}}</a>
+                                                <a href="{{t.get_absolute_url}}" id="colorcss">{{t}}</a>
                                             </span>
                                         {% endfor %}
                                         <br><br>
@@ -84,7 +87,7 @@
                                 </div>
                                 <!-- Product actions-->
                                 <div class="card-footer p-1 pd-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{p.get_absolute_url}}">View details</a></div>
+                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto mb-2" href="{{p.get_absolute_url}}">View details</a></div>
     <!--                                <a href="#">{{p.admin | upper}}</a> &lt;!&ndash; 11 작성자 &ndash;&gt;-->
                                 </div>
                             </div>
@@ -99,10 +102,10 @@
                     <!-- Pagination-->
                     <nav aria-label="Pagination">
                         <hr class="my-0" />
-                        <ul class="pagination justify-content-center my-4">
+                        <ul class="pagination justify-content-center my-4 mb-5">
                             {% if page_obj.has_previous %}
                                 <li class="page-item">
-                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}"style="color:	#FF6347;">Newer</a>
+                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" id="colorcss">Newer</a>
                                 </li>
                             {% else %}
                                 <li class="page-item disabled">
@@ -111,7 +114,7 @@
                             {% endif %}
                             {% if page_obj.has_next %}
                                 <li class="page-item">
-                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}"style="color:	#FF6347;">Older</a>
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" id="colorcss">Older</a>
                                 </li>
                             {% else %}
                                 <li class="page-item disabled">

@@ -1,0 +1,13 @@
+body{
+    background-color:white;
+    font-family: Neue Montreal Medium Regular, "Malgun Gothic", serif;
+    color: #3A3C41;
+}
+#colorcss{
+    color:#FF6347;
+}
+#divimg{
+    border:3px solid #F7F0E8;
+    border-radius:5px;
+    padding-bottom:20px;
+}

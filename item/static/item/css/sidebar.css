@@ -1,0 +1,19 @@
+#button-search{
+    background-color:#FF6347;
+    border-color:#FF6347;
+}
+#category-card,#seller-card,#search-card,#search-input{
+    border:1px solid #F7F0E8;
+    border-radius:5px;
+}
+.card-header{
+    background-color: #F7F0E8;
+    border-bottom:1px solid #F7F0E8;
+}
+a{
+    color:#FF6347;
+}
+#lia:hover{
+    color:#FF6347;
+    font-weight:bold;
+}

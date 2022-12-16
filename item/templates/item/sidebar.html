@@ -1,11 +1,12 @@
 <!-- Search widget-->
-                    <div class="card mb-4 mt-5">
+{% load static %}
+                    <div class="card mb-4 mt-5" id="search-card">
                         <div class="card-header"><i class="fa-solid fa-magnifying-glass"></i> Search</div>
                         <div class="card-body">
                             <div class="input-group">
                                 <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search"
                                 id="search-input"/>
-                                <button class="btn btn-primary" id="button-search" type="button" onclick="searchItem();" style="background-color:#FF6347; border-color:	#FF6347;">Go!</button>
+                                <button class="btn btn-primary" id="button-search" type="button" onclick="searchItem();">Go!</button>
                             </div>
                         </div>
                     </div>
@@ -25,6 +26,7 @@
                             }
                         });
                     </script>
+                    <link rel="stylesheet" href="{% static 'item/css/sidebar.css' %}" type="text/css" media="screen">
                     <!-- Categories widget-->
                     <div class="card mb-4" id='category-card'> <!-- 25 id추가-->
                         <div class="card-header">Categories</div>
@@ -33,9 +35,9 @@
 <!--25 주석                                <div class="col-sm-6">-->
                                     <ul class="list-unstyled mb-0">
                                         {% for c in categories %}
-                                            <li><a href="{{c.get_absolute_url}}" style="color:	#FF6347;">{{c}} ({{c.item_set.count}})</a></li>
+                                            <li><a id="lia" href="{{c.get_absolute_url}}">{{c}} ({{c.item_set.count}})</a></li>
                                         {% endfor %}
-                                            <li><a href="/item/category/no_category/" style="color:	#FF6347;">미분류 ({{no_category_item_count}})</a></li>
+                                            <li><a id="lia" href="/item/category/no_category/">미분류 ({{no_category_item_count}})</a></li>
                                     </ul>
                             </div>
                         </div>
@@ -47,9 +49,9 @@
                             <div class="row">
                                     <ul class="list-unstyled mb-0">
                                         {% for s in sellers %}
-                                            <li><a href="{{s.get_absolute_url}}" style="color:	#FF6347;">{{s}} ({{s.item_set.count}})</a></li>
+                                            <li><a id="lia" href="{{s.get_absolute_url}}">{{s}} ({{s.item_set.count}})</a></li>
                                         {% endfor %}
-                                            <li><a href="/item/seller/no_seller/" style="color:	#FF6347;">미분류 ({{no_seller_item_count}})</a></li>
+                                            <li><a id="lia" href="/item/seller/no_seller/">미분류 ({{no_seller_item_count}})</a></li>
                                     </ul>
                             </div>
                         </div>

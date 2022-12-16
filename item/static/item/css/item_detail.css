@@ -1,0 +1,26 @@
+#edita{
+    background-color:#FF6347;
+    border-color:#FF6347;
+}
+a{
+    color:#FF6347;
+}
+#inputheart{
+    border:2px solid #FF6347;
+    border-radius:20px;
+    background-color:white;
+    color:#FF6347;
+}
+#btnsubmit{
+    background-color:#FF6347;
+    border-color:#FF6347;
+    margin-left:45%;
+}
+#btned{
+    color:#FF6347;
+    border-color:#FF6347;
+}
+#btnrc,#divrc a{
+    background-color:#FF6347;
+    border-color:#FF6347;
+}

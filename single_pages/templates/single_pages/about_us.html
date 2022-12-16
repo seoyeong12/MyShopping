@@ -10,19 +10,16 @@
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <style>
             body{
-                font-family: Georgia, "Malgun Gothic", serif;
+                font-family: Neue Montreal Medium Regular, "Malgun Gothic", serif;
+                color: #3A3C41;
             }
         </style>
     </head>
     <body>
         {% include 'item/navbar.html' %}
-        <header class="py-5 bg-image-full" id="back">
-            <div class="text-center">
-                <img class="img-fluid rounded-circle" src="../static/single_page/images/ramyun.jpg" alt="ramyun" />
-                <h1 class="mt-5 fs-3 fw-bolder">라면가게</h1>
-                <h4 class="mb-0">어서오세요~</h4>
-            </div>
-        </header>
+        <div class="bg-image-full" id="back">
+            <img src="/static/item/logo2.png" id="imgs">
+        </div>
          <section class="page-section mt-5" id="services">
             <div class="container">
                 <div class="text-center">
@@ -32,13 +29,13 @@
                 <div class="row text-center">
                     <div class="col-md-4">
                         <i class="bi bi-building" id="ico"></i>
-                        <h3 class="my-3">제조사별 분류</h3>
-                        <p class="text-muted">좋아하시는 제조사가 따로 있으신가요? <br> 제조사별로 모아보세요!</p>
+                        <h3 class="my-3">제조사 검색</h3>
+                        <p class="text-muted">좋아하시는 제조사가 따로 있으신가요? <br> 제조사를 검색해보세요!</p>
                     </div>
                     <div class="col-md-4">
                         <i class="bi bi-person-check" id="ico"></i>
                         <h3 class="my-3">판매자별 분류</h3>
-                        <p class="text-muted">각 판매자가 파는 상품만 모아보실 수 있습니다. 판매자에 대한 정보도 함께요!</p>
+                        <p class="text-muted">각 판매자가 파는 상품만 모아보실 수 있습니다. 판매자에 대한 정보도 함께 보실 수 있어요!</p>
                     </div>
                     <div class="col-md-4">
                         <i class="bi bi-tags" id="ico"></i>
@@ -51,35 +48,34 @@
         <section class="margin-for-footer">
             <div class="container">
                 <div class="row">
-                    <div class="col-12">
-                        <h1>PORTFOLIO</h1>
+                    <div class="col-12 text-center mb-5">
+                        <h2>PERFORMANCE GRAPH</h2>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-4">
-                        <div class="card" data-toggle="modal" data-target="#portfolio1">
-                            <img class="card-img-top" src="{% static 'single_page/images/aboutme.png' %}">
-                            <div class="card-body">
-                                <h5>첫번째 포트폴리오</h5>
-                                <p>첫번째 포트폴리오입니다.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4">
+
+                    <div class="col-6 ">
                         <div class="card" data-toggle="modal" data-target="#portfolio2">
-                            <img class="card-img-top" src="{% static 'single_page/images/cloud.png' %}">
+
+                            <div class="card-body" id="divcard">
+                                <div class="mt-5 text-center text-light" id="divtext">
+                                    <h5 class="mt-2 mb-2">Category</h5>
+                                </div>
+
+                            </div>
                             <div class="card-body">
                                 <h5>카테고리</h5>
-                                <p>카테고리별 원형 그래프입니다.</p>
+                                <p>카테고리별 그래프입니다.</p>
                             </div>
                         </div>
+
                     </div>
-                    <div class="col-4">
+                    <div class="col-6">
                         <div class="card" data-toggle="modal" data-target="#portfolio3">
                             <div class="card-img-top" id="mychart1"></div>
                             <div class="card-body">
-                                <h5>제조사</h5>
-                                <p>제조사별 그래프입니다.</p>
+                                <h5>판매자</h5>
+                                <p>판매자별 그래프입니다.</p>
                             </div>
                         </div>
                     </div>
@@ -94,16 +90,17 @@
 
             function drawChart(){
                 var data = google.visualization.arrayToDataTable([
-                ['Manufacturer', 'Item'],
-                ['농심', 10],
-                ['오뚜기', 4],
-                ['삼양', 4],
-                ['팔도', 2]
+                ['Seller', 'Item'],
+                {% for s in sellers %}
+                ['{{s}}', {{s.item_set.count}}],
+                ['미분류',{{no_seller_item_count}}],
+                {% endfor %}
+
                 ]);
                 var options = {
                  chart: {
-                    title: 'Manufacturer Performance',
-                    subtitle : '제조사별 상품 현황'
+                    title: ' Seller Performance',
+                    subtitle : ' 판매자별 상품 현황'
                  }
                 };
                 var chart = new google.charts.Line(document.getElementById('mychart1')); //Bar->Line으로 바꾸기
@@ -116,15 +113,14 @@
             function drawChart2(){
                 var data = google.visualization.arrayToDataTable([
                 ['Category', 'Item'],
-                ['봉지라면', 5],
-                ['짜장라면', 2],
-                ['컵라면', 2],
-                ['볶음라면', 6]
+                {% for c in categories %}
+                ['{{c}}', {{c.item_set.count}}],
+                ['미분류',{{no_category_item_count}}],
+                {% endfor %}
                 ]);
                 var options = {
                  chart: {
-                    title: 'Category Performance',
-                    subtitle : 'Sales : 2014-2017'
+                    title: 'Category Performance'
                  }
                 };
                 var chart = new google.visualization.PieChart(document.getElementById('mychart2'));
@@ -133,34 +129,6 @@
 
 
         </script>
-
-        <!--Modal-->
-        <div class="modal fade" id="portfolio1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">포트폴리오 1</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-6">
-                                <h5>첫번째 포트폴리오</h5>
-                                <p>첫번째 포트폴리오입니다. 상세한 설명을 하고 있습니다.</p>
-                            </div>
-                            <div class="col-6">
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!--Modal2-->
         <div class="modal fade" id="portfolio2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
             <div class="modal-dialog">
@@ -190,7 +158,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel3">제조사 현황</h5>
+                        <h5 class="modal-title" id="exampleModalLabel3">판매자 현황</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -200,11 +168,11 @@
                             <div class="col-12">
 
                                 <table class="table table-boundary table-striped">
-                                    <tr><th>Manufacturer</th><th>Item</th></tr>
-                                    <tr><th>농심</th><td>10</td></tr>
-                                    <tr><th>오뚜기</th><td>4</td></tr>
-                                    <tr><th>삼양</th><td>4</td></tr>
-                                    <tr><th>팔도</th><td>2</td></tr>
+                                    <tr><th>Seller</th><th>Item</th></tr>
+                                    {% for s in sellers %}
+                                    <tr><th>{{s}}</th><td>{{s.item_set.count}}</td></tr>
+                                    <tr><th>미분류</th><td>{{no_seller_item_count}}</td></tr>
+                                    {% endfor %}
                                 </table>
                             </div>
                         </div>

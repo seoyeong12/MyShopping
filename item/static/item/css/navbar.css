@@ -1,0 +1,18 @@
+#navbar{
+    background-color:white;
+    border-bottom: 3px solid #F7F0E8;
+    color:#FF6347;
+}
+#logoimg{
+    width:130px;
+}
+.nav-link,#navbarDropdownMenuLink{
+    color:#FF6347;
+}
+#aboutmeimg{
+    background-color:white;
+}
+.nav-link:hover{
+    color:#FF6347;
+    font-weight:bold;
+}

@@ -1,14 +1,18 @@
 body{
-    background: url('/static/single_page/images/ramyun3.jpg') no-repeat center center fixed;
-    -webkit-background-size:cover;
-    -moz-background-size:cover;
-    background-size:cover;
-    -o-background-size:cover;
-    font-family: Georgia, "Malgun Gothic", serif;
+    font-family: Neue Montreal Medium Regular, "Malgun Gothic", serif;
+    color: black;
+    background:url('../images/main2.jpg'); background-size:cover;
 }
 section{
     margin-bottom:150px;
+    height:800px;
 }
 .card {
     background-color: rgba(255, 255, 255, 0.6);
+}
+#divside{
+    width:300px; margin-right:-80px
+}
+#divcard{
+    border:2px solid #F7F0E8;
 }

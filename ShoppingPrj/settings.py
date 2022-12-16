@@ -144,10 +144,3 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-#
-# ## 카카오 키들은 나중에 accounts.view에서 쓰일 예정
-# SOCIAL_OUTH_CONFIG = {
-#     'KAKAO_REST_API_KEY': '647785aa408c08c13831f97bc95e7253',
-#     "KAKAO_REDIRECT_URI": 'http://127.0.0.1:8000/accounts/kakao/login/callback/'
-#     # "KAKAO_SECRET_KEY": 'KAKAO_SECRET_KEY'
-# }

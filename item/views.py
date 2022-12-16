@@ -103,7 +103,6 @@ class ItemList(ListView):
         context['no_seller_item_count'] = Item.objects.filter(seller=None).count
         return context
 
-
 class ItemDetail(DetailView):
     model = Item
     def get_context_data(self,**kwargs):
@@ -113,9 +112,7 @@ class ItemDetail(DetailView):
         context['sellers'] = Seller.objects.all()
         context['no_seller_item_count'] = Item.objects.filter(seller=None).count
         context['comment_form'] = CommentForm
-
         return context
-
 
 def category_page(request, slug):
     if slug == 'no_category':
@@ -167,7 +164,6 @@ def new_comment(request,pk):
                 comment = comment_form.save(commit=False)
                 comment.item = item
                 comment.author = request.user
-
                 comment.save()
                 return redirect(comment.get_absolute_url())
         else: #GET
