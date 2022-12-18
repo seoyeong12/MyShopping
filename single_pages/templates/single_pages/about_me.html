@@ -85,9 +85,11 @@
                             <div class="card mt-1" id="carddiv">
                                   <div class="card-body">
                                       <a href="{{ item.get_absolute_url }}" class="text-decoration-none text-dark">
+                                          {% if item.head_image %}
                                           <img src="{{item.head_image.url}}" id="itemimg">
+                                          {% endif %}
                                             {{ item.name |truncatechars:15}}
-                                      <span class="badge badge-pill badge-light float-right" id="spanitem">
+                                      <span class="badge badge-pill badge-light float-right">
                                           {{ item.seller }} {{item.price}}원
                                       </span></a>
                                   </div>

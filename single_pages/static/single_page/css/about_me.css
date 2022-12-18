@@ -15,11 +15,8 @@ body{
     background-color:#FF6347;
     color:white;
 }
-#spanitem{
-    margin-top:-20px;
-}
 #carddiv{
-    height:100px;
+    max-height:120px;
 }
 #itemimg{
     margin-top:-5px;

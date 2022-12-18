@@ -25,7 +25,9 @@
                               <div class="card-body">
                                   <h6 class="font-weight-bold">
                                       <a href="{{ item.get_absolute_url }}" class="text-decoration-none text-dark">
+                                          {% if item.head_image %}
                                           <img src="{{item.head_image.url}}" style="width:100px;">
+                                          {% endif %}
                                       {{ item.name }}
                                   <span class="badge badge-pill badge-light float-right">
                                       {{ item.seller.name }}
