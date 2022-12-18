@@ -1,20 +1,16 @@
 {% extends 'item/base.html' %}
 {% load crispy_forms_tags %}
 {% block head_title %}
-    Create - Item
+    Create - Seller
 {% endblock %}
 
 {% block main_area %}
-  <h1 class="mt-5">상품 등록</h1>
+  <h1 class="mt-5">Create New Seller</h1>
   <hr>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
       {{form | crispy}}
-      <div id="div_id_tags_str">
-        <label for="id_tags">Tags:</label>
-        <input type="text" id="id_tags" name="tags_str"
-          class="textinput textInput form-control">
-      </div>
+      <div><h5>Bnum은 사업자등록번호 입력란입니다.</h5></div>
     <button type="submit" class="btn btn-primary float-right mt-3 mb-5" style="background-color:#FF6347;border-color:#FF6347;">Submit</button>
   </form>
 {% endblock %}

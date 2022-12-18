@@ -59,7 +59,6 @@ class ItemUpdate(LoginRequiredMixin,UpdateView):
 class ItemCreate(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     model = Item
     fields = ['name','content','price','head_image','manufacturer','category'] #'tags'
-
     def test_func(self):
         return self.request.user.is_superuser or self.request.user.is_staff
 
@@ -67,6 +66,8 @@ class ItemCreate(LoginRequiredMixin,UserPassesTestMixin,CreateView):
         current_user = self.request.user
         if current_user.is_authenticated and (current_user.is_superuser or current_user.is_staff):
             form.instance.author = current_user
+            seller = Seller.objects.get(author=current_user)
+            form.instance.seller = seller
             response = super(ItemCreate,self).form_valid(form)
             tags_str = self.request.POST.get('tags_str')
             if tags_str :
@@ -86,6 +87,60 @@ class ItemCreate(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     #템플릿 : 모델명_form.html
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ItemCreate,self).get_context_data()
+        context['categories'] = Category.objects.all()
+        context['no_category_item_count'] = Item.objects.filter(category=None).count
+        context['sellers'] = Seller.objects.all()
+        context['no_seller_item_count'] = Item.objects.filter(seller=None).count
+        return context
+class SellerCreate(LoginRequiredMixin,UserPassesTestMixin,CreateView):
+    model = Seller
+    fields = ['name','address','phone','bnum']
+    def test_func(self):
+        seller = Seller.objects.filter(author=self.request.user)
+        if(seller):
+            raise PermissionDenied
+        return self.request.user.is_superuser or self.request.user.is_staff or Seller.objects.get(author=self.request.user)
+
+    def form_valid(self, form):
+        current_user = self.request.user
+        form.instance.slug = form.instance.name
+        if current_user.is_authenticated and (current_user.is_superuser or current_user.is_staff):
+            form.instance.author = current_user
+            response = super(SellerCreate,self).form_valid(form)
+            return redirect('/about_me/')
+        else:
+            return redirect('/about_me/')
+    #템플릿 : 모델명_form.html
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(SellerCreate,self).get_context_data()
+        context['categories'] = Category.objects.all()
+        context['no_category_item_count'] = Item.objects.filter(category=None).count
+        context['sellers'] = Seller.objects.all()
+        context['no_seller_item_count'] = Item.objects.filter(seller=None).count
+        return context
+
+class SellerUpdate(LoginRequiredMixin,UpdateView):
+    model = Seller
+    fields = ['name','address','phone','bnum']
+    template_name = 'item/seller_update_form.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user == self.get_object().author:
+            return super(SellerUpdate, self).dispatch(request, *args, **kwargs)
+        else:
+            raise PermissionDenied
+    def form_valid(self, form):
+
+        current_user = self.request.user
+        if current_user.is_authenticated and (current_user.is_superuser or current_user.is_staff):
+            form.instance.author = current_user
+            response = super(SellerUpdate,self).form_valid(form)
+            return redirect('/about_me/')
+        else:
+            return redirect('/about_me/')
+    #템플릿 : 모델명_form.html
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(SellerUpdate,self).get_context_data()
         context['categories'] = Category.objects.all()
         context['no_category_item_count'] = Item.objects.filter(category=None).count
         context['sellers'] = Seller.objects.all()

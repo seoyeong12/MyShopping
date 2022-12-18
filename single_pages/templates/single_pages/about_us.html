@@ -23,23 +23,23 @@
          <section class="page-section mt-5" id="services">
             <div class="container">
                 <div class="text-center">
-                    <h2 class="section-heading text-uppercase">Services</h2>
-                    <h4 class="section-subheading text-muted">저희만의 기능을 소개합니다.</h4>
+                    <h2 class="section-heading text-uppercase" id="colorcss">Services</h2>
+                    <h4 class="section-subheading text-muted">세모라면의 기능을 소개합니다.</h4>
                 </div>
                 <div class="row text-center">
                     <div class="col-md-4">
                         <i class="bi bi-building" id="ico"></i>
-                        <h3 class="my-3">제조사 검색</h3>
+                        <h3 class="my-3" id="colorcss">제조사 검색</h3>
                         <p class="text-muted">좋아하시는 제조사가 따로 있으신가요? <br> 제조사를 검색해보세요!</p>
                     </div>
                     <div class="col-md-4">
                         <i class="bi bi-person-check" id="ico"></i>
-                        <h3 class="my-3">판매자별 분류</h3>
+                        <h3 class="my-3" id="colorcss">판매자별 분류</h3>
                         <p class="text-muted">각 판매자가 파는 상품만 모아보실 수 있습니다. 판매자에 대한 정보도 함께 보실 수 있어요!</p>
                     </div>
                     <div class="col-md-4">
                         <i class="bi bi-tags" id="ico"></i>
-                        <h3 class="my-3">편리한 태그</h3>
+                        <h3 class="my-3" id="colorcss">편리한 태그</h3>
                         <p class="text-muted">다양하고 편리한 태그들로 원하시는 맛의 새로운 라면을 발견해보세요!</p>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
         <section class="margin-for-footer">
             <div class="container">
                 <div class="row">
-                    <div class="col-12 text-center mb-5">
+                    <div class="col-12 text-center mb-5" id="colorcss">
                         <h2>PERFORMANCE GRAPH</h2>
                     </div>
                 </div>
@@ -93,9 +93,8 @@
                 ['Seller', 'Item'],
                 {% for s in sellers %}
                 ['{{s}}', {{s.item_set.count}}],
-                ['미분류',{{no_seller_item_count}}],
                 {% endfor %}
-
+                ['미분류',{{no_seller_item_count}}],
                 ]);
                 var options = {
                  chart: {
@@ -115,8 +114,8 @@
                 ['Category', 'Item'],
                 {% for c in categories %}
                 ['{{c}}', {{c.item_set.count}}],
-                ['미분류',{{no_category_item_count}}],
                 {% endfor %}
+                ['미분류',{{no_category_item_count}}]
                 ]);
                 var options = {
                  chart: {
@@ -171,8 +170,8 @@
                                     <tr><th>Seller</th><th>Item</th></tr>
                                     {% for s in sellers %}
                                     <tr><th>{{s}}</th><td>{{s.item_set.count}}</td></tr>
-                                    <tr><th>미분류</th><td>{{no_seller_item_count}}</td></tr>
                                     {% endfor %}
+                                    <tr><th>미분류</th><td>{{no_seller_item_count}}</td></tr>
                                 </table>
                             </div>
                         </div>
@@ -183,9 +182,7 @@
                 </div>
             </div>
         </div>
-
           {% include 'item/footer.html' %}
-<!--        </div>        &lt;!&ndash; Bootstrap core JS&ndash;&gt;-->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>

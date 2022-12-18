@@ -28,11 +28,10 @@
                     </script>
                     <link rel="stylesheet" href="{% static 'item/css/sidebar.css' %}" type="text/css" media="screen">
                     <!-- Categories widget-->
-                    <div class="card mb-4" id='category-card'> <!-- 25 id추가-->
+                    <div class="card mb-4" id='category-card'>
                         <div class="card-header">Categories</div>
                         <div class="card-body">
                             <div class="row">
-<!--25 주석                                <div class="col-sm-6">-->
                                     <ul class="list-unstyled mb-0">
                                         {% for c in categories %}
                                             <li><a id="lia" href="{{c.get_absolute_url}}">{{c}} ({{c.item_set.count}})</a></li>
@@ -43,7 +42,7 @@
                         </div>
                     </div>
                     <!-- Seller widget-->
-                    <div class="card mb-4" id='seller-card'> <!-- 25 id추가-->
+                    <div class="card mb-4" id='seller-card'>
                         <div class="card-header">Sellers</div>
                         <div class="card-body">
                             <div class="row">

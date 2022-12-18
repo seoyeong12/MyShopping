@@ -11,3 +11,7 @@ body{
     border-radius:5px;
     padding-bottom:20px;
 }
+#cbtn,#ebtn{
+    background-color:#FF6347;
+    color:white;
+}

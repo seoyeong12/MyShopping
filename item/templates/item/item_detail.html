@@ -1,4 +1,4 @@
-{% extends 'item/base.html' %} <!-- 10모듈화하고 이거 붙이기 -->
+{% extends 'item/base.html' %}
 {% load crispy_forms_tags %}
 {% block main_area %}
 {% load static %}
@@ -18,25 +18,25 @@
                         <img class="col-md-6" src="https://picsum.photos/seed/{{item.pk}}/800/200" alt="random image" />
                     {% endif %}
                     <div class="col-md-6">
-                        <h1 class="display-5 fw-bolder">{{item.name}} <p class="lead">by {{item.author}}</p> </h1>
+                        <h2 class="display-5 fw-bolder">{{item.name}}</h2><br>
                         <div class="fs-5 mb-5">
-                            {% if p.category %}
+                            {% if item.category %}
                                     <span class="badge badge-light float-right">
-                                        <a href="{{p.category.get_absolute_url}}">{{p.category}}</a>
+                                        <a href="{{item.category.get_absolute_url}}">{{item.category}}</a>
                                     </span>
                                 {% else %}
                                     <span class="badge badge-light float-right">
                                         <a href="/item/category/no_category/">미분류</a>
                                     </span>
                                 {% endif %}
-                            <span class="text-decoration-line-through">{{item.price}}원</span><br>
-                            <span>{{item.manufacturer | upper}}</span><br>
+                            <h5 class="text-decoration-line-through">{{item.price}}원</h5>
+                            <span>제조사 : {{item.manufacturer | upper}}</span><br>
                             {% if item.seller %}
-                                <a href="{{item.seller.get_absolute_url}}">{{item.seller}}</a>
+                                판매자 : <a href="{{item.seller.get_absolute_url}}">{{item.seller}}</a><br>
                             {% else %}
                                 <a href="/item/seller/no_seller/">셀러없음</a>
                             {% endif %}
-                            <span>{{item.content}}</span>
+                            <br><br><span>{{item.content}}</span>
                         </div>
                         <div>
                           <form action="{% url 'item:likes' item.pk %}" method='POST' class="float-right mr-2">
@@ -74,30 +74,26 @@
                                     <div class="form-group">
                                         {{comment_form | crispy}}
                                     </div>
-                                    <button type="submit" class="btn btn-primary" id="btnsubmit">Submit</button>
+                                    <button type="submit" class="btn btn-primary" id="btnsubmit">댓글 달기</button>
                                 </form>
                                 {% else %}
                                 <a role="button" class="btn btn-dark btn-block btn-sm mb-5" href="#"
                                     data-toggle="modal" data-target="#LoginModal">
-                                    Log in and Leave a comment
+                                    로그인 후 댓글기능을 이용하실 수 있습니다.
                                 </a>
                                 {% endif %}
                                 {% if item.comment_set.exists %}
                                     {% for comment in item.comment_set.iterator %}
                                             {% if comment.parent == null %}
                                             <div class="media d-flex mt-3" id="comment-{{comment.pk}}">
-                                                {% if comment.type is not None %}
-                                                <img class="mr-3 rounded-circle" src="{{comment.get_avatar_url}}" width="60px" alt="{{comment.author}}" />
-                                                {% else %}
-                                                <img class="mr-3 rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" width="60px" alt="{{comment.author}}" />
-                                                {% endif %}
+                                                <img class="mr-3 rounded-circle" src="{{comment.get_avatar_url}}" width="60px" alt="{{comment.author}}">
                                                 <div class="media-body ms-3">
                                                 {% if user.is_authenticated and comment.author == user %}
                                                     <div class="float-right">
                                                         <a role="button" class="btn btn-sm btn-light mr-1"
                                                            href="/item/update_comment/{{comment.pk}}/" id="btned" >Edit</a>
                                                         <a role="button" href="#" id="comment-{{ comment.pk }}-delete-modal-btn"
-                                                           class="btn btn-sm float-right btn-dark" style="color:#FF6347;border-color:#FF6347;"
+                                                           class="btn btn-sm float-right btn-dark" style="background-color:#FF6347;border-color:#FF6347;"
                                                            data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">Delete</a>
                                                     </div>
                                                     <!-- Modal -->
@@ -106,7 +102,7 @@
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="deleteModalLabel">Are You Sure?</h5>
+                                                                    <h5 class="modal-title" id="deleteModalLabel">정말 댓글을 삭제하시겠습니까?</h5>
                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
@@ -122,11 +118,13 @@
                                                         </div>
                                                     </div>
                                                 {% else %}
+                                                    {% if user.is_authenticated %}
                                                     <div class="float-right" id="divrc">
                                                     <a role="button" href="#" id="comment-{{ comment.pk }}-recomment-modal-btn"
                                                            class="btn btn-sm float-right btn-dark"
                                                            data-toggle="modal" data-target="#reCommentModal-{{ comment.pk }}">Recomment</a>
                                                     </div>
+                                                    {% endif %}
                                                     <!-- Modal -->
                                                     <div class="modal fade" id="reCommentModal-{{ comment.pk }}" tabindex="-1" role="dialog"
                                                          aria-labelledby="reCommentModalLabel" aria-hidden="true">
@@ -172,7 +170,7 @@
                                                 <div class="media d-flex ml-4">
                                                     <div class="media d-flex w-100" id="comment-{{recomment.pk}}">
                                                     {% if comment.type is not None %}
-                                                        <img class="mr-3 rounded-circle" src="{{comment.get_avatar_url}}" width="60px" alt="{{comment.author}}" />
+                                                        <img class="mr-3 rounded-circle" src="{{recomment.get_avatar_url}}" width="60px" alt="{{comment.author}}" />
                                                     {% else %}
                                                         <img class="mr-3 rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" width="60px" alt="{{comment.author}}" />
                                                     {% endif %}

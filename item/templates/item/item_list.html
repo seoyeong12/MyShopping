@@ -3,14 +3,18 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'item/css/item_list.css' %}" type="text/css" media="screen">
     {% if user.is_authenticated %}
-            {% if user.is_superuser or user.is_staff %}
+        {% for s in sellers %}
+            {% if s.author == user %}
+            {% if user.is_superuser or user.is_staff%}
                 <a href="/item/create_item/" role="button"
                    class="btn btn-info btn-sm float-right mt-5" id="btnnew">
                     <i class="fas fa-pen"></i> New Item
                 </a>
             {% endif %}
+            {% endif %}
+        {% endfor %}
         {% endif %}
-                <h5 class="mt-5"> > Item
+                <h5 class="mt-5" id="colorcss"> > Item
                     {% if search_info %}
                     - <small class="text-muted">{{ search_info }}</small>
                     {% endif %}
@@ -22,7 +26,6 @@
                     {% if seller != '미분류' %}
                     <div class="card mt-3">
                               <div class="card-body">
-<!--                                  <h5>판매자 정보 - </h5>-->
                                   <h4 class="font-weight-bold" id="colorcss"> {{ seller.name }} </h4>
                                       <h5>주소 : {{ seller.address}} <br>
                                       연락처 : {{ seller.phone }} <br>
@@ -32,8 +35,8 @@
                     {% endif %}
                     {% endif %}
                     {% if tag %}
-                    - <i class="fas fa-tag"></i>
-                    <span class="badge badge-secondary">
+                    - <i class="fas fa-tag" id="colorcss"></i>
+                    <span class="badge badge-light" id="colorcss">
                         {{ tag }} ({{tag.item_set.count}})
                     </span>
                     {% endif %}
@@ -46,13 +49,13 @@
                         {% for p in item_list %}
                         <div class="col mb-5">
                             <div class="card h-100" id="divcard">
-                                {% if p.head_image %} <!--16 이미지 없는 글일때 쓰려고 detail도 똑같이 -->
-                                    <a href="#!" ><img class="card-img-top" src="{{p.head_image.url}}" alt="{{p}}의 head_image" /></a> <!--15 이미지 소스 추가 ,detail로 이동-->
-                                {% else %}<!-- 16 랜덤 이미지 -> post_detail로 이동-->
+                                {% if p.head_image %}
+                                    <a href="#!" ><img class="card-img-top" src="{{p.head_image.url}}" alt="{{p}}의 head_image" /></a>
+                                {% else %}
                                     <img class="card-img-top" src="https://picsum.photos/seed/{{p.pk}}/800/200" alt="random image" />
                                 {% endif %}
                                 <!-- Product details-->
-                                <div class="card-body p-4">
+                                <div class="card-body p-3">
                                     {% if p.category %}
                                         <span class="badge float-right">
                                             <a href="{{p.category.get_absolute_url}}" id="colorcss">{{p.category}}</a>
@@ -63,16 +66,10 @@
                                         </span>
                                     {% endif %}
                                     <div class="text-center">
-                                        <!-- Product name-->
                                         <br>
-                                        <h4 class="fw-bolder ">{{p.name}}</h4>
-    <!--                                    <a href="#">{{p.seller | upper}}</a><br>-->
-                                        <!-- Product author-->
-                                        {{p.price}}원<br>
-    <!--                                    {{p.author}}<br>-->
-                                        <!-- Product publisher-->
-    <!--                                    {{p.manufacturer | upper}}<br>-->
-                                        {{p.content | truncatechars:20 }}
+                                        <h5 class="fw-bolder ">{{p.name}}</h5>
+                                        {{p.price}}원<br><br>
+                                        {{p.content | truncatechars:10 }}<br><br><br>
                                     </div>
 
                                     {% if p.tags.exists %}
@@ -88,7 +85,6 @@
                                 <!-- Product actions-->
                                 <div class="card-footer p-1 pd-0 border-top-0 bg-transparent">
                                     <div class="text-center"><a class="btn btn-outline-dark mt-auto mb-2" href="{{p.get_absolute_url}}">View details</a></div>
-    <!--                                <a href="#">{{p.admin | upper}}</a> &lt;!&ndash; 11 작성자 &ndash;&gt;-->
                                 </div>
                             </div>
                         </div>

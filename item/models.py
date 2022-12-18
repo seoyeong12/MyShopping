@@ -42,14 +42,14 @@ class Item(models.Model): #상품
 
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 
-    seller = models.ForeignKey(Seller, on_delete=models.CASCADE) #판매자 다대일
+    seller = models.ForeignKey(Seller, on_delete=models.CASCADE, null=True) #판매자 다대일
 
     category = models.ForeignKey(Category, null=True, blank = True, on_delete=models.SET_NULL) #카테고리 다대일
 
     tags = models.ManyToManyField(Tag, blank=True) #태그 다대다
-    like_users = models.ManyToManyField(User, related_name='like_item') #찜하기
+    like_users = models.ManyToManyField(User, related_name='like_item', null=True, blank = True) #찜하기
     def __str__(self):
-        return f'[{self.pk}]{self.name}::{self.author} : {self.price} : {self.manufacturer} : {self.seller} : {self.like_users} '
+        return f'[{self.pk}]{self.name}:: {self.price} : {self.manufacturer} : {self.seller} : {self.like_users} '
 
     def get_absolute_url(self):
         return f'/item/{self.pk}/'

@@ -17,7 +17,8 @@ def about_me(request):
     if request.user.is_authenticated:
         return render(request, 'single_pages/about_me.html',{
             'items' : items,
-            'comments' : comments
+            'comments' : comments,
+            'sellers': Seller.objects.all(),
         })
     else:
         return redirect('/item/')
@@ -28,4 +29,5 @@ def about_us(request):
         'categories': Category.objects.all(),
         'no_category_item_count': Item.objects.filter(category=None).count,
     })
+
 # Create your views here.
