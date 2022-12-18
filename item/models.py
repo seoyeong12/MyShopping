@@ -50,7 +50,6 @@ class Item(models.Model): #상품
     like_users = models.ManyToManyField(User, related_name='like_item', null=True, blank = True) #찜하기
     def __str__(self):
         return f'[{self.pk}]{self.name}:: {self.price} : {self.manufacturer} : {self.seller} : {self.like_users} '
-
     def get_absolute_url(self):
         return f'/item/{self.pk}/'
 class Comment(models.Model):
@@ -59,7 +58,7 @@ class Comment(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
-    parent = models.ForeignKey('self',on_delete = models.CASCADE,null=True,blank=True)
+    parent = models.ForeignKey('self',on_delete = models.CASCADE,null=True,blank=True) #대댓글을 위함
     def __str__(self):
         return f'{self.item.pk} : {self.author} : {self.content}'
 

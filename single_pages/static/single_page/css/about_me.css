@@ -15,3 +15,14 @@ body{
     background-color:#FF6347;
     color:white;
 }
+#spanitem{
+    margin-top:-20px;
+}
+#carddiv{
+    height:100px;
+}
+#itemimg{
+    margin-top:-5px;
+    margin-left:-13px;
+    width:70px;
+}
